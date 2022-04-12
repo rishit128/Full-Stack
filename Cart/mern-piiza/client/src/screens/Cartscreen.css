@@ -1,0 +1,13 @@
+.background{
+    background-image: url("./Backgrounds/road_path_between_green_trees_mountains_with_fog_scenery_background_hd_nature-1280x720.jpg");
+    
+    background-size: cover;
+    background-repeat:no-repeat;
+    background-position: center;
+    
+    height: 100vh;
+ 
+  
+  
+    
+}
