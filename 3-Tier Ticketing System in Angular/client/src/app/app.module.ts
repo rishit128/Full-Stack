@@ -8,13 +8,13 @@ import { SignupComponent } from './Components/signup/signup.component';
 import { NavbarComponent } from './Components/navbar/navbar.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { FlashMessagesModule } from "angular2-flash-messages";
+import { FlashMessagesModule } from 'angular2-flash-messages';
 import { DashboardComponent } from './Components/dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table'
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
-import {  MatButtonModule } from '@angular/material/button'
+import { MatButtonModule } from '@angular/material/button';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -25,8 +25,7 @@ import { MatInputModule } from '@angular/material/input';
     SigninComponent,
     SignupComponent,
     NavbarComponent,
-    DashboardComponent
-
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,9 +40,9 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     MDBBootstrapModule.forRoot(),
     FlashMessagesModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

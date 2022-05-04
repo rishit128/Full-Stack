@@ -2,21 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-import { User } from '../_classes/user'
+import { User } from '../_classes/user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   registerUser(user: User): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type':  'application/json',
+      'Content-Type': 'application/json',
     });
-    return this.http.post("http://localhost:5000/user/signup", user, {headers: headers});
+    return this.http.post('http://localhost:5000/user/signup', user, {
+      headers: headers,
+    });
   }
-
- 
 }

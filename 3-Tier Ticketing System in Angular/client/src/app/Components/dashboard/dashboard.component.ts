@@ -7,14 +7,23 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import moment from 'moment'
+import moment from 'moment';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements AfterViewInit {
-  displayedColumns = ['ticket_desc', 'empid', 'empname','createdAt','updatedAt','DeletedAt','Edit',"Delete"];
+  displayedColumns = [
+    'ticket_desc',
+    'empid',
+    'empname',
+    'createdAt',
+    'updatedAt',
+    'DeletedAt',
+    'Edit',
+    'Delete',
+  ];
   dataSource = new MatTableDataSource<Ticket>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -45,7 +54,6 @@ export class DashboardComponent implements AfterViewInit {
       Date: null,
       Resolved: false,
     };
-    
   }
 
   getTicketsData() {
@@ -53,7 +61,6 @@ export class DashboardComponent implements AfterViewInit {
       this.ticketservice.Tickets = res as Ticket[];
       this.dataSource = new MatTableDataSource(this.ticketservice.Tickets);
       this.dataSource.paginator = this.paginator;
-
     });
   }
   applyFilter(event: Event) {
@@ -61,70 +68,60 @@ export class DashboardComponent implements AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
   announceSortChange(sortState: Sort) {
-    
     if (sortState.direction) {
       this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
   }
-  onSubmit(form: NgForm)
-  {
-     
-      form.value.creator=this.AuthService.user._id;
-      form.value.empname = this.AuthService.user.name;
-      if (form.value._id == "" || form.value._id == null) {
- 
-          this.ticketservice.postTicket(form.value).subscribe((res) => {
-         this.resetForm(form);
-    
-         this.getTicketsData();
-     
-        });
-      }
-      else {
-  
-          this.ticketservice.putTicket(form.value).subscribe((res) => {
+  onSubmit(form: NgForm) {
+    form.value.creator = this.AuthService.user._id;
+    form.value.empname = this.AuthService.user.name;
+    if (form.value._id == '' || form.value._id == null) {
+      this.ticketservice.postTicket(form.value).subscribe((res) => {
+        this.resetForm(form);
 
-          this.resetForm(form);
-        
-          this.getTicketsData();
+        this.getTicketsData();
+      });
+    } else {
+      this.ticketservice.putTicket(form.value).subscribe((res) => {
+        this.resetForm(form);
 
-        });
-      }
-  }  
+        this.getTicketsData();
+      });
+    }
+  }
   onEdit(M: Ticket) {
     this.ticketservice.selectedTicket = M;
   }
-  resetForm(form?:NgForm){
-     
-    if(form)
-    {
-      this.ticketservice.selectedTicket._id=''
-      this.ticketservice.selectedTicket.ticket_desc=''
-      this.ticketservice.selectedTicket.empname=this.AuthService.user.name
-      this.ticketservice.selectedTicket.empid=0
+  resetForm(form?: NgForm) {
+    if (form) {
+      this.ticketservice.selectedTicket._id = '';
+      this.ticketservice.selectedTicket.ticket_desc = '';
+      this.ticketservice.selectedTicket.empname = this.AuthService.user.name;
+      this.ticketservice.selectedTicket.empid = 0;
     }
-    this.ticketservice.selectedTicket._id=''
-    this.ticketservice.selectedTicket.ticket_desc=''
-    this.ticketservice.selectedTicket.empname=this.AuthService.user.name
-    this.ticketservice.selectedTicket.empid=0
-   
+    this.ticketservice.selectedTicket._id = '';
+    this.ticketservice.selectedTicket.ticket_desc = '';
+    this.ticketservice.selectedTicket.empname = this.AuthService.user.name;
+    this.ticketservice.selectedTicket.empid = 0;
   }
-  onClose(){
+  onClose() {
     this.getTicketsData();
+    this.ticketservice.selectedTicket._id = '';
+    this.ticketservice.selectedTicket.ticket_desc = '';
+    this.ticketservice.selectedTicket.empname = this.AuthService.user.name;
+    this.ticketservice.selectedTicket.empid = 0;
   }
-  onDelete( element:Ticket) {
+  onDelete(element: Ticket) {
     if (confirm('Are you sure to delete this record ?') == true) {
       this.ticketservice.deleteTicket(element).subscribe((res) => {
-       
-        this.getTicketsData(); 
-   
+        this.getTicketsData();
       });
     }
   }
 
-  moment(element:any){
+  moment(element: any) {
     return moment(element).fromNow();
   }
 }

@@ -1,32 +1,35 @@
 .container-fluid {
-    height: 90vh;
-    overflow: hidden;
-     /* width: auto; */
-    color: #fff;
-    background: linear-gradient(to bottom, rgba(11, 11, 11, 0.52), 
-    rgba(15, 14, 14, 0.73));
-    background-size: cover;
+  height: 90vh;
+  overflow: hidden;
+  /* width: auto; */
+  color: #fff;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 11, 11, 0.52),
+    rgba(15, 14, 14, 0.73)
+  );
+  background-size: cover;
 }
 
 form {
-    height: 80vh;
-    width: 50%;
-    margin-left: 25%;
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
+  height: 80vh;
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 form h2 {
-    text-align: center;
-    font-weight: bold;
+  text-align: center;
+  font-weight: bold;
 }
 
 form .form-control {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 .btn {
-    margin-top: 15px;
-    background-color: #00ADB5;
-    color: #fff;
+  margin-top: 15px;
+  background-color: #00adb5;
+  color: #fff;
 }
