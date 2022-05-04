@@ -13,7 +13,7 @@ export const createTicket = async (req, res) => {
     creator: creator,
     createdAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
     empname: empname,
-    Date: moment(new Date()).format("YYYY-MM-DD"),
+    Date: moment().toISOString(),
   });
 
   try {
@@ -27,14 +27,10 @@ export const createTicket = async (req, res) => {
 
 export const getTickets = async (req, res) => {
   try {
-    const ticket = await Ticket.find();
-    const sortedtickets = ticket.sort(
-      (a, b) =>
-        new moment(a.Date).format("YYYY-MM-DD") -
-        new moment(b.Date).format("YYYY-MM-DD")
-    );
+    const ticket = await Ticket.find().sort({Date:-1});
+  
 
-    res.status(200).json(sortedtickets);
+    res.status(200).json(ticket);
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
@@ -79,7 +75,7 @@ export const deleteTicket = async (req, res) => {
     creator,
     empid,
     ticket_desc,
-    DeletedAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
+    DeletedAt: moment().toISOString(),
     _id: _id,
   };
 

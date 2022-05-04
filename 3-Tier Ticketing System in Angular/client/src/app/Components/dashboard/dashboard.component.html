@@ -167,7 +167,7 @@
       >
         Resolved
       </th>
-      <td mat-cell *matCellDef="let element">{{ element.DeletedAt }}</td>
+      <td mat-cell *matCellDef="let element">{{element.DeletedAt?moment(element.DeletedAt):null }}</td>
     </ng-container>
 
     <ng-container matColumnDef="Edit">

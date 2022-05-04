@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import moment from 'moment'
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -121,5 +122,9 @@ export class DashboardComponent implements AfterViewInit {
    
       });
     }
+  }
+
+  moment(element:any){
+    return moment(element).fromNow();
   }
 }
