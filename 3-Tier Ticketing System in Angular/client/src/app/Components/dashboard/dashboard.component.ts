@@ -114,7 +114,7 @@ export class DashboardComponent implements AfterViewInit {
     this.getTicketsData();
   }
   onDelete( element:Ticket) {
-    if (confirm('Are you sure this issuse is Solved?') == true) {
+    if (confirm('Are you sure to delete this record ?') == true) {
       this.ticketservice.deleteTicket(element).subscribe((res) => {
        
         this.getTicketsData(); 
