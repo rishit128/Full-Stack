@@ -26,9 +26,9 @@ export class SignupComponent implements OnInit {
           this.flashMessagesService.show("User registered successfully", { cssClass: 'alert-success', timeout: 5500});
   
         }
-        else {
+        if(res.message) {
      
-          this.flashMessagesService.show(res.msg, { cssClass: 'alert-danger', timeout: 4500});
+          this.flashMessagesService.show(res.message, { cssClass: 'alert-danger', timeout: 4500});
           this.router.navigate(['/signup']);
         }
       });

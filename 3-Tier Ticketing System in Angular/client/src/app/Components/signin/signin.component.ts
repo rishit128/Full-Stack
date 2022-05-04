@@ -31,6 +31,7 @@ export class SigninComponent implements OnInit {
     const loginData = new LoginData(this.loginData.email, this.loginData.password);
     
     this.authService.authenticateUser(loginData).subscribe(res => {
+      console.log(res.message)
       if(res.result) {
         this.authService.storeUserData(res.token, res.result);
         this.authService.isloggedin = true
@@ -41,10 +42,12 @@ export class SigninComponent implements OnInit {
      
         
       }
-      else {
-        this.flashMessagesService.show(res.msg, { cssClass: 'alert-danger', timeout: 2500});
+      if(res.message) {
+        console.log('first')
+        this.flashMessagesService.show(res.message, { cssClass: 'alert-danger', timeout: 4500});
         this.router.navigate(['login']);
       }
+    
     });
   }
 }
