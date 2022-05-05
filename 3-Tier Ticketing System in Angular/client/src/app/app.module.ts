@@ -15,7 +15,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 
 import { MatButtonModule } from '@angular/material/button';
-
+import{MatSortModule} from '@angular/material/sort'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
@@ -34,6 +34,7 @@ import { MatInputModule } from '@angular/material/input';
     MatTableModule,
     MatPaginatorModule,
     HttpClientModule,
+    MatSortModule,
     ReactiveFormsModule,
     AppRoutingModule,
     MatFormFieldModule,

@@ -102,7 +102,7 @@
         #input
       />
     </mat-form-field>
-    <table class="bg" mat-table [dataSource]="dataSource">
+    <table class="bg" mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
       <ng-container matColumnDef="ticket_no">
         <th
           mat-header-cell

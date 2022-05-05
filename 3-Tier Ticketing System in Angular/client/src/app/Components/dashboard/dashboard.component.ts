@@ -13,7 +13,7 @@ import moment from 'moment';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements OnInit {
   displayedColumns = [
     'ticket_no',
     'ticket_desc',
@@ -62,6 +62,7 @@ export class DashboardComponent implements AfterViewInit {
       this.ticketservice.Tickets = res as Ticket[];
       this.dataSource = new MatTableDataSource(this.ticketservice.Tickets);
       this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     });
   }
   applyFilter(event: Event) {
