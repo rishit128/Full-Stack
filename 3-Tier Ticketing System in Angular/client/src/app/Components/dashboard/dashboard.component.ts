@@ -15,6 +15,7 @@ import moment from 'moment';
 })
 export class DashboardComponent implements AfterViewInit {
   displayedColumns = [
+    'ticket_no',
     'ticket_desc',
     'empid',
     'empname',

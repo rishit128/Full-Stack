@@ -103,6 +103,17 @@
       />
     </mat-form-field>
     <table class="bg" mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="ticket_no">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by ticket_no"
+        >
+          Ticket No
+        </th>
+        <td mat-cell *matCellDef="let element let i = index;">{{ (i + 1) + (paginator.pageIndex * paginator.pageSize) }}</td>
+      </ng-container>
       <ng-container matColumnDef="ticket_desc">
         <th
           mat-header-cell
