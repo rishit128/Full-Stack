@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
-
-const secret = 'test';
+import {check, validationResult} from  'express-validator'
+const secret = process.env.SECRET;
 
 const auth = async (req, res, next) => {
   try {
@@ -26,3 +26,5 @@ const auth = async (req, res, next) => {
 };
 
 export default auth;
+
+

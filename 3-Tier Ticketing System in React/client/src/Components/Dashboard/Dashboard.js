@@ -6,19 +6,19 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import useStyles from "./styles";
-import { createTicket, updateTicket } from "../../actions/tickets";
-import { useDispatch, useSelector } from "react-redux";
+import { createTicket } from "../../actions/tickets";
+import { useDispatch} from "react-redux";
 import Tickets from "../Tickets/Tickets";
 import { getTickets } from "../../actions/tickets";
-import { Link } from "react-router-dom";
+
 import {useNavigate} from "react-router-dom";
 import {
   FormGroup,
-  FormControl,
+ 
   InputLabel,
   Input,
-  Typography,
-  makeStyles,
+
+
 } from "@material-ui/core";
 
 function Dashboard() {

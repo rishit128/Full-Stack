@@ -1,12 +1,12 @@
-import logo from './logo.svg';
+
 import './App.css';
 import { BrowserRouter as Router, Routes, Route,Navigate  } from 'react-router-dom';
-import NavBar from './Components/Navbar/NavBar';
-import SignUpForm from './Components/Forms/SignUpForm';
-import Home from './Components/Home/Home';
-import SignInForm from './Components/Forms/SignInForm';
-import Dashboard from './Components/Dashboard/Dashboard';
-import Filter from './Components/Dashboard/Filter'
+import NavBar from './components/Navbar/NavBar';
+import SignUpForm from './components/Forms/SignUpForm';
+import Home from './components/Home/Home';
+import SignInForm from './components/Forms/SignInForm';
+import Dashboard from './components/Dashboard/Dashboard';
+import Filter from './components/Dashboard/Filter'
 
 function App() {
   const user = JSON.parse(localStorage.getItem('profile'))
