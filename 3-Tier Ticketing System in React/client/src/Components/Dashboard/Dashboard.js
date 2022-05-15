@@ -25,6 +25,7 @@ function Dashboard() {
   const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
+  
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
   const navigate = useNavigate();
   const [ticket, setticket] = useState({

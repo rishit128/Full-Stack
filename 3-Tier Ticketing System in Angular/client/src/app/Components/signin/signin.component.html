@@ -11,6 +11,7 @@
             placeholder="Enter your email"
             id="email"
             required
+            email
             [(ngModel)]="loginData.email"
             name="email"
             #lemail="ngModel"
@@ -20,6 +21,10 @@
             class="alert alert-danger"
           >
             <div *ngIf="lemail.errors?.['required']">Email is required.</div>
+           
+            <div *ngIf="lemail.errors?.['email']">
+              It is not a valid email address format.
+            </div>
           </div>
         </div>
         <div class="form-group">
@@ -30,6 +35,7 @@
             placeholder="Enter your password"
             id="password"
             required
+            pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
             [(ngModel)]="loginData.password"
             name="password"
             #lpassword="ngModel"
@@ -40,6 +46,10 @@
           >
             <div *ngIf="lpassword.errors?.['required']">
               Password is required.
+            </div>
+            <div *ngIf="lpassword.errors?.['pattern']">
+              Password shall contain an uppercase, a lowercase and one numerical
+              or special characters. Length must be minimum 8 characters.
             </div>
           </div>
         </div>

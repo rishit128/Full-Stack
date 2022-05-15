@@ -4,24 +4,13 @@ import "dotenv/config";
 import UserModal from "../models/user.js";
 import {USERNOTEXIST,INVALIDPASSWORD,SOMETHINGWRONG,USERALREADY} from '../constants/actionmessage.js'
 const secret = process.env.SECRET;
-import { validateEmail} from '../helpers/validation.js'
-import {check,validationResult} from 'express-validator'
+
 export const signin = async (req, res) => {
 
 
   const { email, password } = req.body;
-  // check(email, 'Please include a valid email').isEmail(),
-  
-  // async (req, res) => {
-  //   const errors = validationResult(req);
-  //   if (!errors.isEmpty()) {
-  //     return res.status(400).json({ errors: errors.array() });
-  //   }}
-  if (!validateEmail(email)) {
-    return res.status(400).json({
-      message: "invalid email address",
-    });
-  }
+
+
   try {
  
     const oldUser = await UserModal.findOne({ email });
@@ -36,7 +25,7 @@ export const signin = async (req, res) => {
 
     res.status(200).json({ result: oldUser, token });
   } catch (err) {
-    console.log(err)
+    
     res.status(500).json(SOMETHINGWRONG);
   }
 };
@@ -58,6 +47,7 @@ export const signup = async (req, res) => {
   
     res.status(201).json({ result, token });
   } catch (error) {
+    console.log(error)
     res.status(500).json(SOMETHINGWRONG);
     
   

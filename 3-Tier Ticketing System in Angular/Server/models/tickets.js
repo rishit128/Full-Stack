@@ -21,7 +21,7 @@ const ticketSchema = mongoose.Schema({
     } ,
     Resolved:{
       type:Boolean,
-      default:false,
+      default:0,
     }
 
 

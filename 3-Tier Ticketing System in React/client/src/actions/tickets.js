@@ -4,8 +4,16 @@ import {FETCH_BY_SEARCH, CREATE,FETCH_ALL,UPDATE,DELETE} from '../constants/acti
 export const createTicket = (ticket) => async (dispatch) => {
     try {
       const { data } = await api.createTicket(ticket);
+      if(data.message==="Invalid Token")
+      {
+        localStorage.clear()
+        window.location="/signin"
+      }
+      else{
+        dispatch({ type: CREATE, payload: data });
+      }
   
-      dispatch({ type: CREATE, payload: data });
+     
     } catch (error) {
    
     }
@@ -15,8 +23,15 @@ export const createTicket = (ticket) => async (dispatch) => {
   export const getTickets = () => async (dispatch) => {
     try {
       const { data } = await api.fetchTickets();
-     
-      dispatch({ type: FETCH_ALL, payload: data });
+      if(data.message==="Invalid Token")
+      {
+        localStorage.clear()
+        window.location="/signin"
+      }
+      else{
+        dispatch({ type: FETCH_ALL, payload: data });
+      }
+      
     } catch (error) {
   
     }
@@ -25,8 +40,16 @@ export const createTicket = (ticket) => async (dispatch) => {
   export const updateTicket = (id, ticket) => async (dispatch) => {
     try {
       const { data } = await api.updateTicket(id, ticket);
-  
-      dispatch({ type: UPDATE, payload: data });
+ 
+      if(data.message==="Invalid Token")
+      {
+        localStorage.clear()
+        window.location="/signin"
+      }
+      else{
+        dispatch({ type: UPDATE, payload: data });
+      }
+      
     } catch (error) {
   
     }
@@ -36,8 +59,17 @@ export const createTicket = (ticket) => async (dispatch) => {
     try{
  
       const {data} = await api.deleteTicket(ticket);
+
+      if(data.message==="Invalid Token")
+      {
+        localStorage.clear()
+        window.location="/signin"
+      }
+      else{
+        dispatch({type:DELETE,payload: data})
+      }
       
-      dispatch({type:DELETE,payload: data})
+      
   
     }catch(error){
 

@@ -71,7 +71,7 @@ export const deleteTicket = async (req, res) => {
 
   const deletedTicket = {
     ...ticket,
-    Resolved: true,
+    Resolved: 1,
     creator,
     empid,
     ticket_desc,

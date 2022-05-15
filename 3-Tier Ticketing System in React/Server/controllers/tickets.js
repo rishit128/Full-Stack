@@ -46,7 +46,7 @@ export const updateTicket = async (req, res) => {
     creator,
     empid,
     ticket_desc,
-    updatedAt: moment().format("MMMM Do YYYY, h:mm:ss a"),
+    updatedAt:  moment().toISOString(),
     _id: id,
   };
 

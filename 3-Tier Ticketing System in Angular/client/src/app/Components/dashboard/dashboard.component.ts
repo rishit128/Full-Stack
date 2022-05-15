@@ -116,7 +116,7 @@ export class DashboardComponent implements OnInit {
     this.ticketservice.selectedTicket.empid = 0;
   }
   onDelete(element: Ticket) {
-    if (confirm('Are you sure to delete this record ?') == true) {
+    if (confirm('Are you sure to Resolve this record ?') == true) {
       this.ticketservice.deleteTicket(element).subscribe((res) => {
         this.getTicketsData();
       });

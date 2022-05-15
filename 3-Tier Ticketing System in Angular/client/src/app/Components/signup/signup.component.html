@@ -13,6 +13,7 @@
             class="form-control"
             placeholder="Enter your name"
             id="name"
+            pattern="[a-zA-Z ]*"
             required
             minlength="5"
             [(ngModel)]="model.name"
@@ -27,6 +28,9 @@
             <div *ngIf="name.errors?.['minlength']">
               Name must be at least 5 characters long.
             </div>
+            <div *ngIf="name.errors?.['pattern']">
+             Only Characters Are Allowed
+            </div>
           </div>
         </div>
         <div class="form-group">
@@ -38,6 +42,7 @@
             id="phone"
             required
             minlength="10"
+            maxlength="10"
             [(ngModel)]="model.phone"
             name="phone"
             #phone="ngModel"
@@ -48,7 +53,7 @@
           >
             <div *ngIf="phone.errors?.['required']">Phone is required.</div>
             <div *ngIf="phone.errors?.['minlength']">
-              Phone must be at least 10 characters long.
+              Phone must be  10 characters long.
             </div>
           </div>
         </div>

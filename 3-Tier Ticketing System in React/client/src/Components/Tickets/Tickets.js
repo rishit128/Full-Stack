@@ -26,6 +26,7 @@ import useStyles from "./styles";
 const Tickets = ({ itemsPerPage }) => {
   const tickets = useSelector((tickets) => tickets.ticket);
 
+
   const user = JSON.parse(localStorage.getItem("profile"));
   const classes = useStyles();
   const dispatch = useDispatch();

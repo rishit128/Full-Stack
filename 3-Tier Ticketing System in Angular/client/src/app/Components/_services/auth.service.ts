@@ -26,8 +26,9 @@ export class AuthService {
   }
 
   storeUserData(token: any, result: any) {
+    console.log(result.name)
     localStorage.setItem('id_token', token);
-    localStorage.setItem('user', JSON.stringify(result));
+    localStorage.setItem('user', JSON.stringify({name:result.name,_id:result._id}));
     this.authToken = token;
 
     this.user = result;
@@ -42,6 +43,7 @@ export class AuthService {
   loadToken() {
     this.authToken = localStorage.getItem('id_token');
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    console.log(this.user)
   }
 
   loggedIn() {

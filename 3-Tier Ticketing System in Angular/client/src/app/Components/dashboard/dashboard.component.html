@@ -208,7 +208,7 @@
         <td mat-cell *matCellDef="let element">
           <button
             [disabled]="
-              !(AuthService.user._id === element.creator) || element.Resolved
+              !(AuthService.user._id === element.creator) || element.Resolved==1
             "
             mat-raised-button
             color="warn"
