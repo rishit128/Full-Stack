@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Login from "../Pages/login/login";
 export default function LoggedInRoutes() {
   const { user } = useSelector((state) => ({ ...state }));
@@ -7,7 +7,7 @@ export default function LoggedInRoutes() {
   if (user.user) {
     console.log("if");
     if (user.user?.role === "admin") {
-      return <Outlet />;
+      return <Navigate to="/admin/hotels" />;
     } else {
       return <Navigate to="/user" />;
     }
