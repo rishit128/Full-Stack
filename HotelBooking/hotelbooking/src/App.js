@@ -1,10 +1,11 @@
 import { Routes, Route } from "react-router-dom";
 import IndexRoutes from "./Routes/Indexoutes";
 import NotLoggedInRoutes from "./Routes/NotLoggedInRoutes";
-import Adminroutes from "./Routes/Adminroutes";
+import Adminroutes from "./Routes/AdminRoutes";
 import Login from "./Pages/login/login";
 import Home from "./Pages/home/Home";
 import Userhome from "./Pages/Users Pages/Userhome";
+import Addhotel from "./Pages/Add Hotel/Addhotel";
 function App() {
   return (
     <div>
@@ -15,7 +16,7 @@ function App() {
         <Route path="/user" element={<Userhome />} exact />
         <Route element={<Adminroutes />}>
           <Route path="/admin" element={<Home />}>
-            <Route path="hotels" element={<Userhome />} />
+            <Route path="addhotel" element={<Addhotel />} />
           </Route>
         </Route>
 
