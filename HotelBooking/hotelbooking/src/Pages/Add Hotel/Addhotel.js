@@ -20,8 +20,7 @@ const Addhotel = () => {
     setformdetails((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     console.log(formdetails);
   };
-  const addhoteldata = async (e) => {
-    console.log("hi");
+  const addhoteldata = async () => {
     const { data } = await api.addhotel({
       ...formdetails,
       description,

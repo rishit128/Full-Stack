@@ -10,3 +10,12 @@ export const createHotel = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+export const getHotels = async (req, res) => {
+  try {
+    const hotels = await Hotel.find();
+    console.log(hotels);
+    res.status(200).json(hotels);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};

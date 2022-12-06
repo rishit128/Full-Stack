@@ -1,17 +1,18 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
-const dataTable = ({ columns, data }) => {
-  const [data, setData] = useState();
+const DataTable = ({ columns, data }) => {
+  const [alldata, setAllData] = useState("");
   useEffect(() => {
-    setData(data);
+    console.log(data);
+    setAllData(data);
   }, [data]);
   return (
     <div className="datatable">
       <DataGrid
         className="datagrid"
-        rows={data}
-        columns={columns.concat(actionColumn)}
+        rows={alldata}
+        columns={columns}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
@@ -20,4 +21,4 @@ const dataTable = ({ columns, data }) => {
     </div>
   );
 };
-export default dataTable;
+export default DataTable;
