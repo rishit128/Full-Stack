@@ -6,6 +6,7 @@ import Login from "./Pages/login/login";
 import Home from "./Pages/home/Home";
 import Userhome from "./Pages/Users Pages/Userhome";
 import Addhotel from "./Pages/Add Hotel/Addhotel";
+import Dashboard from "./Pages/Dash Board/Dashboard";
 function App() {
   return (
     <div>
@@ -16,6 +17,7 @@ function App() {
         <Route path="/user" element={<Userhome />} exact />
         <Route element={<Adminroutes />}>
           <Route path="/admin" element={<Home />}>
+            <Route path="dashboard" element={<Dashboard />} />
             <Route path="addhotel" element={<Addhotel />} />
           </Route>
         </Route>

@@ -7,7 +7,7 @@ export default function LoggedInRoutes() {
   if (user.user) {
     console.log("if");
     if (user.user?.role === "admin") {
-      return <Navigate to="/admin/addhotel" />;
+      return <Navigate to="/admin/dashboard" />;
     } else {
       return <Navigate to="/user" />;
     }

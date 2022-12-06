@@ -27,7 +27,9 @@ function Sidebar() {
           <p className="title">MAIN</p>
           <li>
             <DashboardIcon className="icon" />
-            <span>Dashboard</span>
+            <Link to="/admin/dashboard" style={{ textDecoration: "none" }}>
+              <span>Dashboard</span>
+            </Link>
           </li>
           <p className="title">LISTS</p>
           <Link style={{ textDecoration: "none" }}>
@@ -39,7 +41,9 @@ function Sidebar() {
           <Link style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
-              <span>Hotels</span>
+              <Link to="/admin/addhotel" style={{ textDecoration: "none" }}>
+                <span>Add New Hotel</span>
+              </Link>
             </li>
           </Link>
           <Link style={{ textDecoration: "none" }}>

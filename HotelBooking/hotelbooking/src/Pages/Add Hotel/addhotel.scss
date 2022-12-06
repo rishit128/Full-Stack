@@ -23,9 +23,7 @@
         text-align: center;
 
         img {
-          width: 100px;
-          height: 100px;
-          border-radius: 50%;
+          width: 100%;
           object-fit: cover;
         }
       }
@@ -87,4 +85,15 @@
 }
 .ql-container.ql-snow {
   height: 200px;
+  width: 677px;
+}
+button {
+  width: 150px;
+  padding: 10px;
+  border: none;
+  background-color: teal;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
 }

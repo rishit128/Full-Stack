@@ -3,10 +3,12 @@ import mongoose from "mongoose";
 import cors from "cors";
 import "dotenv/config";
 import userRouter from "./routes/user.js";
+import hotelroutes from "./Routes/hotel.js";
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use("/user", userRouter);
+app.use("/hotel", hotelroutes);
 const uri = process.env.ATLAS_URI;
 const PORT = process.env.PORT || 5000;
 mongoose
