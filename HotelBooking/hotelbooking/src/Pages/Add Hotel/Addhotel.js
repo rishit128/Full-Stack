@@ -13,11 +13,14 @@ import * as Yup from "yup";
 import { Formik, Form, Field } from "formik";
 import * as api from "../../api/index.js";
 import "react-quill/dist/quill.snow.css";
+import Errortoast from "../../components/Errortoast";
 const Addhotel = () => {
   const [files, setfiles] = useState("");
   const [formdetails, setformdetails] = useState({});
   const [description, setdesciption] = useState("");
   const [loading, setLoading] = useState(false);
+  const [Success, setSucess] = useState("");
+  const [Error, setError] = useState("");
   const handleChange = (e) => {
     setformdetails((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     console.log(formdetails);
@@ -29,10 +32,15 @@ const Addhotel = () => {
         ...formdetails,
         description,
       });
-      console.log(data);
+
+      if (data && data.Success) {
+        setSucess(data.message);
+      }
+
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      setError(error.response.data);
     }
   };
   const modules = {
@@ -99,6 +107,16 @@ const Addhotel = () => {
             />
           </div>
           <div className="right">
+            {Success && (
+              <Errortoast
+                showstate={true}
+                message={Success}
+                severity="success"
+              />
+            )}
+            {Error && (
+              <Errortoast showstate={true} message={Error} severity="error" />
+            )}
             <Formik
               enableReinitialize
               initialValues={{

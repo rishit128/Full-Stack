@@ -56,7 +56,9 @@ const Login = () => {
     <div className="container">
       <div className="screen">
         <div className="screen__content">
-          {error && <Errortoast showstate={true} message={error} />}
+          {error && (
+            <Errortoast showstate={true} message={error} severity="error" />
+          )}
           <Formik
             enableReinitialize
             initialValues={{

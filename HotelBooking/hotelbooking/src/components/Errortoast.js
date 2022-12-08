@@ -2,7 +2,7 @@ import * as React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
-export default function PositionedSnackbar({ showstate, message }) {
+export default function PositionedSnackbar({ showstate, message, severity }) {
   const [state, setState] = React.useState({
     open: showstate,
     vertical: "top",
@@ -27,7 +27,7 @@ export default function PositionedSnackbar({ showstate, message }) {
           autoHideDuration={30000}
           style={{ width: "330px" }}
         >
-          <Alert severity="error" sx={{ width: "100%" }}>
+          <Alert severity={severity} sx={{ width: "100%" }}>
             {message}
           </Alert>
         </Snackbar>
