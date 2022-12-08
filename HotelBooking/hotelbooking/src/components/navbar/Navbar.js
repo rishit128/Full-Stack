@@ -1,5 +1,5 @@
 import "./navbar.scss";
-import React, { useEffect, useCallback } from "react";
+import React, { useEffect } from "react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -8,22 +8,24 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import decode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 const Navbar = () => {
   const { user } = useSelector((state) => ({ ...state }));
   const navigate = useNavigate();
-  const logout = useCallback(() => {
-    localStorage.clear();
-    navigate("/login");
-  }, [navigate]);
+  const location = useLocation();
+
   useEffect(() => {
+    const logout = () => {
+      localStorage.clear();
+      navigate("/login");
+    };
     const token = user?.user?.token;
     if (token) {
       const decodedToken = decode(token);
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
-  }, [logout, user]);
+  }, [user, location, navigate]);
   return (
     <div className="navbar">
       <div className="wrapper">

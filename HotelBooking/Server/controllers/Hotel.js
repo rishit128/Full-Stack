@@ -5,7 +5,11 @@ export const createHotel = async (req, res) => {
 
   try {
     const savedHotel = await addHotel.save();
-    res.status(200).json(savedHotel);
+    res.status(200).json({
+      savedHotel,
+      Success: "Success",
+      message: "Hotel Created ! Data inserted Successfully.",
+    });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }

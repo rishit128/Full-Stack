@@ -5,6 +5,8 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import FlightOutlinedIcon from "@mui/icons-material/FlightOutlined";
 import LocationCityOutlinedIcon from "@mui/icons-material/LocationCityOutlined";
+import LoadingButton from "@mui/lab/LoadingButton";
+import SaveIcon from "@mui/icons-material/Save";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 import ReactQuill from "react-quill";
 import * as Yup from "yup";
@@ -15,17 +17,23 @@ const Addhotel = () => {
   const [files, setfiles] = useState("");
   const [formdetails, setformdetails] = useState({});
   const [description, setdesciption] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     setformdetails((prev) => ({ ...prev, [e.target.id]: e.target.value }));
     console.log(formdetails);
   };
   const addhoteldata = async () => {
-    const { data } = await api.addhotel({
-      ...formdetails,
-      description,
-    });
-    console.log(data);
+    try {
+      setLoading(true);
+      const { data } = await api.addhotel({
+        ...formdetails,
+        description,
+      });
+      console.log(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
   const modules = {
     toolbar: [
@@ -234,7 +242,17 @@ const Addhotel = () => {
                     />
                   </div>
 
-                  <button>Save Product</button>
+                  <button>
+                    <LoadingButton
+                      color="primary"
+                      loading={loading}
+                      loadingPosition="start"
+                      startIcon={<SaveIcon />}
+                      variant="contained"
+                    >
+                      Add Hotel
+                    </LoadingButton>
+                  </button>
                 </Form>
               )}
             </Formik>
