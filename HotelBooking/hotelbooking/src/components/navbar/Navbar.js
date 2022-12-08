@@ -18,7 +18,7 @@ const Navbar = () => {
     navigate("/login");
   }, [navigate]);
   useEffect(() => {
-    const token = user?.token;
+    const token = user?.user?.token;
     if (token) {
       const decodedToken = decode(token);
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();

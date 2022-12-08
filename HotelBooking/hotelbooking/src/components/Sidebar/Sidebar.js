@@ -38,12 +38,10 @@ function Sidebar() {
               <span>Users</span>
             </li>
           </Link>
-          <Link style={{ textDecoration: "none" }}>
+          <Link to="/admin/addhotel" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
-              <Link to="/admin/addhotel" style={{ textDecoration: "none" }}>
-                <span>Add New Hotel</span>
-              </Link>
+              <span>Add New Hotel</span>
             </li>
           </Link>
           <Link style={{ textDecoration: "none" }}>

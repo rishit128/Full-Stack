@@ -8,7 +8,7 @@ const Widget = ({ type }) => {
       data = {
         title: "HOTELS",
         link: "See all Hotels",
-        to: "/admin/addhotel",
+        to: "/admin/hotelList",
         icon: (
           <PersonOutlinedIcon
             className="icon"

@@ -2,6 +2,17 @@
   width: 100%;
   display: flex;
 
+  button {
+    width: 150px;
+    padding: 10px;
+    border: none;
+    background-color: teal;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
   .newContainer {
     flex: 6;
 
@@ -86,14 +97,4 @@
 .ql-container.ql-snow {
   height: 200px;
   width: 677px;
-}
-button {
-  width: 150px;
-  padding: 10px;
-  border: none;
-  background-color: teal;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
 }
