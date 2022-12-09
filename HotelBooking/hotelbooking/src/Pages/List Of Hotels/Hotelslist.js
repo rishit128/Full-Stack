@@ -1,19 +1,14 @@
 import Datatable from "../../components/Datatable/Datatable";
 import { hotelColumns } from "../../config";
-import * as api from "../../api/index.js";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
+
 const HotelList = () => {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    const fetchdata = async () => {
-      const { data } = await api.hotelList();
-      setData(data);
-    };
-    fetchdata();
-  }, []);
+  const { hotels } = useSelector((state) => ({ ...state }));
+  console.log(hotels);
   return (
     <div>
-      <Datatable columns={hotelColumns} data={data} />
+      <Datatable columns={hotelColumns} data={hotels.Allhotels} />
     </div>
   );
 };

@@ -9,15 +9,17 @@ import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutline
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import decode from "jwt-decode";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { userData } from "../../Store/user/userSlice.js";
 const Navbar = () => {
   const { user } = useSelector((state) => ({ ...state }));
   const navigate = useNavigate();
   const location = useLocation();
-
+  const dispatch = useDispatch();
   useEffect(() => {
     const logout = () => {
       localStorage.clear();
+      dispatch(userData(""));
       navigate("/login");
     };
     const token = user?.user?.token;
@@ -25,7 +27,8 @@ const Navbar = () => {
       const decodedToken = decode(token);
       if (decodedToken.exp * 1000 < new Date().getTime()) logout();
     }
-  }, [user, location, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
   return (
     <div className="navbar">
       <div className="wrapper">

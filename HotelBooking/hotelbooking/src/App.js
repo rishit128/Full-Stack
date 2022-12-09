@@ -8,6 +8,7 @@ import Userhome from "./Pages/Users Pages/Userhome";
 import Addhotel from "./Pages/Add Hotel/Addhotel";
 import Dashboard from "./Pages/Dash Board/Dashboard";
 import HotelList from "./Pages/List Of Hotels/Hotelslist";
+import Addrom from "./Pages/Add Room/Addroom";
 function App() {
   return (
     <div>
@@ -21,6 +22,7 @@ function App() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="addhotel" element={<Addhotel />} />
             <Route path="hotelList" element={<HotelList />} />
+            <Route path="addroom" element={<Addrom />} />
           </Route>
         </Route>
 

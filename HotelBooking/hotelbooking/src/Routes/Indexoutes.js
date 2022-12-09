@@ -5,7 +5,6 @@ export default function LoggedInRoutes() {
   const { user } = useSelector((state) => ({ ...state }));
   console.log(user);
   if (user.user) {
-    console.log("if");
     if (user.user?.role === "admin") {
       return <Navigate to="/admin/dashboard" />;
     } else {

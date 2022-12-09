@@ -44,10 +44,10 @@ function Sidebar() {
               <span>Add New Hotel</span>
             </li>
           </Link>
-          <Link style={{ textDecoration: "none" }}>
+          <Link to="/admin/addroom" style={{ textDecoration: "none" }}>
             <li>
               <CreditCardIcon className="icon" />
-              <span>Rooms</span>
+              <span>Add New Rooms</span>
             </li>
           </Link>
           <li>

@@ -6,11 +6,12 @@ const DataTable = ({ columns, data }) => {
 
   useEffect(() => {
     var regex = /(<([^>]+)>)/gi;
-    for (var i = 0; i < data.length; i++) {
-      data[i].description = data[i].description.replace(regex, "");
-    }
-    console.log(data);
-    setAllData(data);
+    var newdata = data.map((d) => {
+      let description = d.description.replace(regex, "");
+      return { ...d, description };
+    });
+
+    setAllData(newdata);
   }, [data]);
   return (
     <div className="datatable">
@@ -22,6 +23,7 @@ const DataTable = ({ columns, data }) => {
         rowsPerPageOptions={[9]}
         checkboxSelection
         getRowId={(row) => row._id}
+        // getRowHeight={() => "auto"}
       />
     </div>
   );

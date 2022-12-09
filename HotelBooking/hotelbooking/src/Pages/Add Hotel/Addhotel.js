@@ -131,6 +131,7 @@ const Addhotel = () => {
               onSubmit={() => {
                 addhoteldata();
               }}
+              validateOnBlur={false}
             >
               {({ errors, touched }) => (
                 <Form>
