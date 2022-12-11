@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const { ObjectId } = mongoose.Schema;
 const HotelSchema = new mongoose.Schema({
   hotelname: {
     type: String,
@@ -33,7 +34,8 @@ const HotelSchema = new mongoose.Schema({
     max: 5,
   },
   rooms: {
-    type: [String],
+    type: ObjectId,
+    ref: "Room",
   },
   cheapestPrice: {
     type: Number,

@@ -6,11 +6,6 @@ export const hotelColumns = [
     width: 150,
   },
   {
-    field: "hoteltype",
-    headerName: "Type",
-    width: 150,
-  },
-  {
     field: "city",
     headerName: "City",
     width: 150,
@@ -29,5 +24,14 @@ export const hotelColumns = [
     field: "cheapestPrice",
     headerName: "CheapestPrice",
     width: 200,
+  },
+  {
+    field: "rooms.price",
+    headerName: "Type",
+    width: 200,
+    valueGetter: (params) => {
+      const allroomnumbers = params.row.rooms.roomno.map((e) => e.number);
+      return allroomnumbers;
+    },
   },
 ];

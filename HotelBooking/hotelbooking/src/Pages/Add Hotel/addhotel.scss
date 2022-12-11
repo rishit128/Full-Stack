@@ -4,6 +4,14 @@
 
   button {
     border: 0;
+    width: 250px;
+    padding: 10px;
+    border: none;
+    background-color: teal;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
   }
 
   .newContainer {
@@ -90,4 +98,14 @@
 .ql-container.ql-snow {
   height: 200px;
   width: 677px;
+}
+.centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform: -webkit-translate(-50%, -50%);
+  transform: -moz-translate(-50%, -50%);
+  transform: -ms-translate(-50%, -50%);
+  color: darkred;
 }

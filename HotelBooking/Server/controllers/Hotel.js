@@ -1,6 +1,5 @@
 import Hotel from "../models/hotel.js";
 export const createHotel = async (req, res) => {
-  console.log(req.body);
   const addHotel = new Hotel(req.body);
 
   try {
@@ -16,7 +15,7 @@ export const createHotel = async (req, res) => {
 };
 export const getHotels = async (req, res) => {
   try {
-    const hotels = await Hotel.find();
+    const hotels = await Hotel.find().populate("rooms");
     console.log(hotels);
     res.status(200).json(hotels);
   } catch (error) {

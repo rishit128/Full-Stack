@@ -8,6 +8,7 @@ export default function PositionedSnackbar({ showstate, message, severity }) {
     vertical: "top",
     horizontal: "center",
   });
+  console.log(showstate);
   const { vertical, horizontal, open } = state;
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -24,7 +25,7 @@ export default function PositionedSnackbar({ showstate, message, severity }) {
           open={open}
           onClose={handleClose}
           key={vertical + horizontal}
-          autoHideDuration={30000}
+          autoHideDuration={3000}
           style={{ width: "330px" }}
         >
           <Alert severity={severity} sx={{ width: "100%" }}>

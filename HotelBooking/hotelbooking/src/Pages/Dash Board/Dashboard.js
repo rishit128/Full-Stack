@@ -10,6 +10,8 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchdata = async () => {
       const { data } = await api.hotelList();
+      const roomsdata = await api.roomlist();
+      console.log(roomsdata);
       dispatch(hotelsdata(data));
     };
     fetchdata();

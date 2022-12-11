@@ -12,3 +12,5 @@ API.interceptors.request.use((req) => {
 export const signIn = (formData) => API.post("/user/signin", formData);
 export const addhotel = (hotelData) => API.post("/hotel/addhotel", hotelData);
 export const hotelList = () => API.get("/hotel/hotelList");
+export const createroom = (roomdata) => API.post("/rooms/addroom", roomdata);
+export const roomlist = () => API.get("/rooms/getrooms");
