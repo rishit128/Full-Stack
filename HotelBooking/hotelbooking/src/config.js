@@ -26,11 +26,11 @@ export const hotelColumns = [
     width: 200,
   },
   {
-    field: "rooms.price",
-    headerName: "Type",
+    field: "rooms.",
+    headerName: "Room Number's",
     width: 200,
     valueGetter: (params) => {
-      const allroomnumbers = params.row.rooms.roomno.map((e) => e.number);
+      const allroomnumbers = params?.row?.rooms?.roomno.map((e) => e.number);
       return allroomnumbers;
     },
   },

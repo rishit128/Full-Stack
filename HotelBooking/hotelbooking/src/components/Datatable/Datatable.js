@@ -5,13 +5,7 @@ const DataTable = ({ columns, data }) => {
   const [alldata, setAllData] = useState([]);
 
   useEffect(() => {
-    var regex = /(<([^>]+)>)/gi;
-    var newdata = data.map((d) => {
-      let description = d.description.replace(regex, "");
-      return { ...d, description };
-    });
-
-    setAllData(newdata);
+    setAllData(data);
   }, [data]);
   return (
     <div className="datatable">

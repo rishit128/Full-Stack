@@ -11,8 +11,13 @@ const Dashboard = () => {
     const fetchdata = async () => {
       const { data } = await api.hotelList();
       const roomsdata = await api.roomlist();
+      var regex = /(<([^>]+)>)/gi;
+      var newdata = data.map((d) => {
+        let description = d.description.replace(regex, "");
+        return { ...d, description };
+      });
       console.log(roomsdata);
-      dispatch(hotelsdata(data));
+      dispatch(hotelsdata(newdata));
     };
     fetchdata();
   }, [dispatch]);
