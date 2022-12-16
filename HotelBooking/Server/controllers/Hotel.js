@@ -15,10 +15,8 @@ export const createHotel = async (req, res) => {
 };
 export const getHotels = async (req, res) => {
   try {
-    const hotels = await Hotel.find().populate({
-      path: "rooms",
-      model: "Rooms",
-    });
+    console.log("object");
+    const hotels = await Hotel.find().populate("rooms");
     console.log(hotels);
     res.status(200).json(hotels);
   } catch (error) {
