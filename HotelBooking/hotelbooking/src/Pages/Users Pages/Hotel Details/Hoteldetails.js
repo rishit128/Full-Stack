@@ -1,25 +1,69 @@
 import "./Hoteldetails.css";
 import Header from "../../Users Pages/User Navbar/Header";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import * as api from "../../../api/index";
+import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
 const Hoteldetails = () => {
+  const location = useLocation();
+  const { user } = useSelector((state) => ({ ...state }));
+  console.log(user);
+  const [hotelid, sethotelid] = useState("");
+  const [hoteldetails, sethoteldetails] = useState({});
+  const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+  function dayDifference(date1, date2) {
+    const timeDiff = Math.abs(
+      new Date(date2).getTime() - new Date(date1).getTime()
+    );
+    const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
+    return diffDays;
+  }
+
+  const days = dayDifference(
+    user?.usersearchdetails?.dates[0].endDate,
+    user?.usersearchdetails?.dates[0].startDate
+  );
+
+  useEffect(() => {
+    const ftechhoteldetails = async (id) => {
+      const { data } = await api.HotelByid(id);
+      var regex = /(<([^>]+)>)/gi;
+      var description = data.description.replace(regex, "");
+      sethoteldetails({ ...data, description });
+    };
+    if (location?.pathname) {
+      const id = location.pathname.split("/")[3];
+      sethotelid(id);
+      ftechhoteldetails(id);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
   return (
     <div>
       <Header type="list" />
       <div className="hotelContainer">
         <div className="hotelWrapper">
           <button className="bookNow">Reserve or Book Now!</button>
-          <h1 className="hotelTitle">{data.hotelname}</h1>
+          <h1 className="hotelTitle">{hoteldetails.hotelname}</h1>
           <div className="hotelAddress">
-            {/* <FontAwesomeIcon icon={faLocationDot} /> */}
-            <span>{data.address}</span>
+            <span>{hoteldetails.address}</span>
           </div>
           <span className="hotelDistance">
-            Excellent location – {data.distancefromairport}Km from Airport
+            Excellent location – {hoteldetails.distancefromairport}Km from
+            Airport
           </span>
           <span className="hotelPriceHighlight">
-            Book a stay over ${data.cheapestPrice} at this property and get a
-            free airport taxi
+            Book a stay over{" "}
+            <CurrencyRupeeOutlinedIcon
+              fontSize="small"
+              style={{ color: "green" }}
+            />
+            {hoteldetails.cheapestPrice} at this property and get a free airport
+            taxi
           </span>
-          <div className="hotelImages">
+          {/* <div className="hotelImages">
             {data.photos?.map((photo, i) => (
               <div className="hotelImgWrapper" key={i}>
                 <img
@@ -30,11 +74,10 @@ const Hoteldetails = () => {
                 />
               </div>
             ))}
-          </div>
+          </div> */}
           <div className="hotelDetails">
             <div className="hotelDetailsTexts">
-              <h1 className="hotelTitle">{data.title}</h1>
-              <p className="hotelDesc">{data.desc}</p>
+              <p className="hotelDesc">{hoteldetails.description}</p>
             </div>
             <div className="hotelDetailsPrice">
               <h1>Perfect for a {days}-night stay!</h1>
@@ -43,18 +86,24 @@ const Hoteldetails = () => {
                 excellent location score of 9.8!
               </span>
               <h2>
-                <b>${days * data.cheapestPrice * options.room}</b> ({days}{" "}
-                nights)
+                <b>
+                  <CurrencyRupeeOutlinedIcon
+                    fontSize="large"
+                    style={{ color: "gray" }}
+                  />
+                  {days *
+                    hoteldetails.cheapestPrice *
+                    user?.usersearchdetails?.options.room}
+                </b>{" "}
+                ({days} nights)
               </h2>
-              <button onClick={handleClick}>Reserve or Book Now!</button>
+              <button>Reserve or Book Now!</button>
             </div>
           </div>
         </div>
-        <MailList />
-        <Footer />
       </div>
 
-      {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />}
+      {/* {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />} */}
     </div>
   );
 };

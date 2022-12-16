@@ -1,12 +1,15 @@
 import "./header.css";
 import { DateRange } from "react-date-range";
+import { useDispatch } from "react-redux";
 import { useState } from "react";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { usersearch } from "../../../Store/user/userSlice.js";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 const Header = ({ type }) => {
+  const dispatch = useDispatch();
   const [destination, setDestination] = useState("");
   const [openDate, setOpenDate] = useState(false);
   const theme = createTheme({
@@ -42,6 +45,7 @@ const Header = ({ type }) => {
   };
 
   const handleSearch = () => {
+    dispatch(usersearch({ destination, dates, options }));
     navigate("/user/Destinationhotelist", {
       state: { destination, dates, options },
     });

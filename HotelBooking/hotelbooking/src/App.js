@@ -11,6 +11,7 @@ import HotelList from "./Pages/List Of Hotels/Hotelslist";
 import Addrom from "./Pages/Add Room/Addroom";
 import DestinationhotelList from "./Pages/Users Pages/HotelList by Destination/HotelList";
 import Usermain from "./Pages/Users Pages/Default Page/Usermain";
+import HotelDetails from "./Pages/Users Pages/Hotel Details/Hoteldetails";
 function App() {
   return (
     <div>
@@ -24,7 +25,7 @@ function App() {
             path="Destinationhotelist"
             element={<DestinationhotelList />}
           />
-          {/* <Route path="hotels/:id" element={<Hotel />} /> */}
+          <Route path="hotels/:id" element={<HotelDetails />} />
         </Route>
 
         <Route element={<Adminroutes />}>

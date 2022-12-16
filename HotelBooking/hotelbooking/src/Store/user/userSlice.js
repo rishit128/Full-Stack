@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   user: JSON.parse(localStorage.getItem("profile")) || null,
+  usersearchdetails: {},
 };
 
 const userslice = createSlice({
@@ -10,7 +11,10 @@ const userslice = createSlice({
     userData: (state, action) => {
       state.user = action.payload;
     },
+    usersearch: (state, action) => {
+      state.usersearchdetails = action.payload;
+    },
   },
 });
-export const { userData } = userslice.actions;
+export const { userData, usersearch } = userslice.actions;
 export default userslice.reducer;

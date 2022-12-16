@@ -15,7 +15,10 @@ export const createHotel = async (req, res) => {
 };
 export const getHotels = async (req, res) => {
   try {
-    const hotels = await Hotel.find().populate("rooms");
+    const hotels = await Hotel.find().populate({
+      path: "rooms",
+      model: "Rooms",
+    });
     console.log(hotels);
     res.status(200).json(hotels);
   } catch (error) {
@@ -42,9 +45,9 @@ export const countByType = async (req, res, next) => {
     res.status(404).json({ message: error.message });
   }
 };
-export const getHotelByid = async (req, res, next) => {
+export const getHotelByid = async (req, res) => {
   try {
-    const hotel = await Hotel.findById(req.params.id);
+    const hotel = await Hotel.findById(req.params.id).populate("rooms");
     res.status(200).json(hotel);
   } catch (error) {
     res.status(404).json({ message: error.message });

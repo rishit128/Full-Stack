@@ -15,4 +15,4 @@ export const hotelList = () => API.get("/hotel/hotelList");
 export const createroom = (roomdata) => API.post("/rooms/addroom", roomdata);
 export const roomlist = () => API.get("/rooms/getrooms");
 export const countByType = () => API.get("/hotel/countByType");
-export const HotelByid = () => API.get("/hotelfind/:id");
+export const HotelByid = (id) => API.get(`/hotel/hotelfind/${id}`);
