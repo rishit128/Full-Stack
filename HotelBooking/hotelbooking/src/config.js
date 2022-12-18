@@ -30,7 +30,10 @@ export const hotelColumns = [
     headerName: "Room Number's",
     width: 200,
     valueGetter: (params) => {
-      const allroomnumbers = params?.row?.rooms?.roomno.map((e) => e.number);
+      console.log(params);
+      const allroomnumbers = params?.row?.rooms?.map((e) =>
+        e.roomno.map((e) => e.number)
+      );
       return allroomnumbers;
     },
   },

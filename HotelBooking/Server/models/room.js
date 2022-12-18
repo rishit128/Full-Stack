@@ -5,7 +5,8 @@ const RoomSchema = new mongoose.Schema({
     type: ObjectId,
     ref: "Hotel",
   },
-  roomno: [{ number: Number }],
+  roomtitle: { type: String, required: true },
+  roomno: [{ number: Number, unavailableDates: { type: [Date], default: [] } }],
   roomdescription: {
     type: String,
     required: true,

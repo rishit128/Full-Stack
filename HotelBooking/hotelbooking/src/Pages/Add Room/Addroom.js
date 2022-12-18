@@ -11,6 +11,7 @@ const Addroom = () => {
   const { hotels } = useSelector((state) => ({ ...state }));
   const [roommdetails, setroomdetails] = useState({
     hotelname: "",
+    roomtitle: "",
     roomdescription: "",
     price: "",
     maxpeople: "",
@@ -64,7 +65,8 @@ const Addroom = () => {
     }
   };
   const Roomvalidation = Yup.object({
-    hotelname: Yup.string().required("Hotel Name is required!"),
+    roomtitle: Yup.string().required("Room Title Is Required"),
+    hotelname: Yup.string().required("Hotel Name Is required!"),
     roomno: Yup.array().min(1, "At least One Room Number Is Required"),
     roomdescription: Yup.string().required("Room Description Is required"),
     price: Yup.string().required("Room Price Is required"),
@@ -97,6 +99,7 @@ const Addroom = () => {
                   roomdescription: roommdetails.roomdescription,
                   price: roommdetails.price,
                   maxpeople: roommdetails.maxpeople,
+                  roomtitle: roommdetails.roomtitle,
                 }}
                 validationSchema={Roomvalidation}
                 onSubmit={() => {
@@ -139,7 +142,20 @@ const Addroom = () => {
                       ) : null}
                     </div>
                     <div className="formInput">
-                      <label htmlFor="roomno"> Hotel Number</label>
+                      <label htmlFor="roomtitle">Room Title</label>
+                      <Field
+                        type="text"
+                        id="roomtitle"
+                        name="roomtitle"
+                        onChange={handleChange}
+                        placeholder="Enter Room Title"
+                      />
+                      {errors.roomtitle && touched.roomtitle ? (
+                        <div style={{ color: "red" }}>{errors.roomtitle}</div>
+                      ) : null}
+                    </div>
+                    <div className="formInput">
+                      <label htmlFor="roomno"> Room Number</label>
                       <Field
                         type="text"
                         id="roomno"

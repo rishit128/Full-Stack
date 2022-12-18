@@ -8,8 +8,8 @@ import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined
 const Hoteldetails = () => {
   const location = useLocation();
   const { user } = useSelector((state) => ({ ...state }));
-  console.log(user);
   const [hotelid, sethotelid] = useState("");
+  const [availableroooms, setavailablerooms] = useState([]);
   const [hoteldetails, sethoteldetails] = useState({});
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
@@ -24,9 +24,50 @@ const Hoteldetails = () => {
     user?.usersearchdetails?.dates[0].endDate,
     user?.usersearchdetails?.dates[0].startDate
   );
+  const getDatesInRange = (startDate, endDate) => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    const date = new Date(start.getTime());
+
+    const dates = [];
+
+    while (date <= end) {
+      dates.push(new Date(date).getTime());
+      date.setDate(date.getDate() + 1);
+    }
+
+    return dates;
+  };
+  const alldates = getDatesInRange(
+    user?.usersearchdetails?.dates[0].startDate,
+    user?.usersearchdetails?.dates[0].endDate
+  );
+
+  const isAvailable = (roomNumber) => {
+    const isFound = roomNumber.unavailableDates.some((date) =>
+      alldates.includes(new Date(date).getTime())
+    );
+
+    return !isFound;
+  };
+  const availablerooms = new Promise(function (resolve, reject) {
+    const hoteldata = hoteldetails?.rooms?.map((e) => {
+      const availablerooms = e.roomno.map((e) => {
+        const rishit = isAvailable(e);
+
+        return { ...e, rishit };
+      });
+
+      return { ...e, availablerooms };
+    });
+
+    resolve(hoteldata);
+    console.log(hoteldata);
+  });
 
   useEffect(() => {
-    const ftechhoteldetails = async (id) => {
+    const fetchhoteldetails = async (id) => {
       const { data } = await api.HotelByid(id);
       var regex = /(<([^>]+)>)/gi;
       var description = data.description.replace(regex, "");
@@ -35,11 +76,17 @@ const Hoteldetails = () => {
     if (location?.pathname) {
       const id = location.pathname.split("/")[3];
       sethotelid(id);
-      ftechhoteldetails(id);
+      fetchhoteldetails(id);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location]);
+
+  useEffect(() => {
+    availablerooms.then(function (data) {
+      console.log(data);
+    });
+  }, [hoteldetails]);
   return (
     <div>
       <Header type="list" />
@@ -78,6 +125,13 @@ const Hoteldetails = () => {
           <div className="hotelDetails">
             <div className="hotelDetailsTexts">
               <p className="hotelDesc">{hoteldetails.description}</p>
+              <div className="availability-block-header">
+                <hr />
+                <h2>Availability</h2>
+                {availableroooms?.hoteldata?.forEach((e) => {
+                  <div>{e.hotelname}</div>;
+                })}
+              </div>
             </div>
             <div className="hotelDetailsPrice">
               <h1>Perfect for a {days}-night stay!</h1>
