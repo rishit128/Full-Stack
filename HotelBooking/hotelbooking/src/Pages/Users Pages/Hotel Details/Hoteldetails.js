@@ -5,6 +5,12 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as api from "../../../api/index";
 import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import Table from "@mui/material/Table";
+import TableRow from "@material-ui/core/TableRow";
 const Hoteldetails = () => {
   const location = useLocation();
   const { user } = useSelector((state) => ({ ...state }));
@@ -129,13 +135,35 @@ const Hoteldetails = () => {
               <div className="availability-block-header">
                 <hr />
                 <h2>Availability</h2>
-                {availableroomsdata?.map((e) => {
-                  return (
-                    e.availablerooms.some((item) => item.rishit === true) && (
-                      <div>{e.roomtitle}</div>
-                    )
-                  );
-                })}
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="left"> Accommodation Type</TableCell>
+                        <TableCell align="left"> Sleeps</TableCell>
+                        <TableCell align="left"> Today's Price</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    {availableroomsdata?.map((e) => {
+                      return (
+                        e.availablerooms.some(
+                          (item) => item.rishit === true
+                        ) && (
+                          <TableBody>
+                            <TableRow>
+                              <TableCell>
+                                <div>
+                                  {e.roomtitle}
+                                  {e.roomdescription}
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        )
+                      );
+                    })}
+                  </Table>
+                </TableContainer>
               </div>
             </div>
             <div className="hotelDetailsPrice">
