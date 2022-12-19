@@ -130,12 +130,10 @@ const Hoteldetails = () => {
                 <hr />
                 <h2>Availability</h2>
                 {availableroomsdata?.map((e) => {
-                  return e.availablerooms.some(
-                    (item) => item.rishit == true
-                  ) ? (
-                    <div>{e.roomtitle}</div>
-                  ) : (
-                    ""
+                  return (
+                    e.availablerooms.some((item) => item.rishit === true) && (
+                      <div>{e.roomtitle}</div>
+                    )
                   );
                 })}
               </div>
