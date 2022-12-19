@@ -9,7 +9,7 @@ const Hoteldetails = () => {
   const location = useLocation();
   const { user } = useSelector((state) => ({ ...state }));
   const [hotelid, sethotelid] = useState("");
-  const [availableroooms, setavailablerooms] = useState([]);
+  const [availableroomsdata, setavailableroomsdata] = useState([]);
   const [hoteldetails, sethoteldetails] = useState({});
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
@@ -61,9 +61,7 @@ const Hoteldetails = () => {
 
       return { ...e, availablerooms };
     });
-
     resolve(hoteldata);
-    console.log(hoteldata);
   });
 
   useEffect(() => {
@@ -85,7 +83,10 @@ const Hoteldetails = () => {
   useEffect(() => {
     availablerooms.then(function (data) {
       console.log(data);
+      setavailableroomsdata(data);
+      console.log(availableroomsdata);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hoteldetails]);
   return (
     <div>
@@ -128,8 +129,14 @@ const Hoteldetails = () => {
               <div className="availability-block-header">
                 <hr />
                 <h2>Availability</h2>
-                {availableroooms?.hoteldata?.forEach((e) => {
-                  <div>{e.hotelname}</div>;
+                {availableroomsdata?.map((e) => {
+                  return e.availablerooms.some(
+                    (item) => item.rishit == true
+                  ) ? (
+                    <div>{e.roomtitle}</div>
+                  ) : (
+                    ""
+                  );
                 })}
               </div>
             </div>
