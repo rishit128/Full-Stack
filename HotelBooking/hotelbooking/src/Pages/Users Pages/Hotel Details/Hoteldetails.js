@@ -13,11 +13,14 @@ import Table from "@mui/material/Table";
 import TableRow from "@material-ui/core/TableRow";
 import PeopleIcon from "@mui/icons-material/People";
 import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
+import Reserve from "../../../components/Reserve/Reserve";
+import Useclickoutside from "../../../components/useClickoutisde/Useclickoutside";
 const Hoteldetails = () => {
   const location = useLocation();
   const { user } = useSelector((state) => ({ ...state }));
   const [hotelid, sethotelid] = useState("");
   const [availableroomsdata, setavailableroomsdata] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
   const [hoteldetails, sethoteldetails] = useState({});
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
@@ -32,6 +35,9 @@ const Hoteldetails = () => {
     user?.usersearchdetails?.dates[0].endDate,
     user?.usersearchdetails?.dates[0].startDate
   );
+  const handleClick = () => {
+    setOpenModal(true);
+  };
   const getDatesInRange = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -101,7 +107,6 @@ const Hoteldetails = () => {
       <Header type="list" />
       <div className="hotelContainer">
         <div className="hotelWrapper">
-          <button className="bookNow">Reserve or Book Now!</button>
           <h1 className="hotelTitle">{hoteldetails.hotelname}</h1>
           <div className="hotelAddress">
             <span>{hoteldetails.address}</span>
@@ -111,7 +116,7 @@ const Hoteldetails = () => {
             Airport
           </span>
           <span className="hotelPriceHighlight">
-            Book a stay over{" "}
+            Book a stay over
             <CurrencyRupeeOutlinedIcon
               fontSize="small"
               style={{ color: "green" }}
@@ -166,20 +171,35 @@ const Hoteldetails = () => {
                                 {e.maxpeople <= 2 ? (
                                   <div>
                                     <PeopleIcon
-                                      fontSize="small"
-                                      style={{ color: "black" }}
+                                      fontSize="medium"
+                                      style={{
+                                        color: "black",
+                                        paddingRight: "5px",
+                                      }}
                                     />
                                     {e.maxpeople} Max People
                                   </div>
                                 ) : (
                                   <div>
                                     <FamilyRestroomIcon
-                                      fontSize="small"
-                                      style={{ color: "black" }}
+                                      fontSize="medium"
+                                      style={{
+                                        color: "black",
+                                        paddingRight: "5px",
+                                      }}
                                     />
                                     {e.maxpeople}
                                   </div>
                                 )}
+                              </TableCell>
+                              <TableCell>
+                                <div>
+                                  <CurrencyRupeeOutlinedIcon
+                                    fontSize="small"
+                                    style={{ color: "black" }}
+                                  />
+                                  {e.price}
+                                </div>
                               </TableCell>
                             </TableRow>
                           </TableBody>
@@ -208,13 +228,15 @@ const Hoteldetails = () => {
                 </b>{" "}
                 ({days} nights)
               </h2>
-              <button>Reserve or Book Now!</button>
+              <button onClick={handleClick}>Reserve or Book Now!</button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />} */}
+      {openModal && (
+        <Reserve setOpen={setOpenModal} hoteldetails={hoteldetails} />
+      )}
     </div>
   );
 };

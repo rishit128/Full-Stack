@@ -1,9 +1,15 @@
 import "./reserve.css";
-const Reserve = ({ setOpen, hotelId }) => {
+import { useState, useRef } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import Useclickoutside from "../../components/useClickoutisde/Useclickoutside";
+const Reserve = ({ setOpen, hoteldetails }) => {
+  const reservepopup = useRef(null);
+  Useclickoutside(reservepopup, () => {
+    setOpen(false);
+  });
   const [selectedRooms, setSelectedRooms] = useState([]);
-  const { data, loading, error } = useFetch(`/hotels/room/${hotelId}`);
-  const { dates } = useContext(SearchContext);
-
+  const { user } = useSelector((state) => ({ ...state }));
   const getDatesInRange = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -20,7 +26,10 @@ const Reserve = ({ setOpen, hotelId }) => {
     return dates;
   };
 
-  const alldates = getDatesInRange(dates[0].startDate, dates[0].endDate);
+  const alldates = getDatesInRange(
+    user?.usersearchdetails?.dates[0].startDate,
+    user?.usersearchdetails?.dates[0].endDate
+  );
 
   const isAvailable = (roomNumber) => {
     const isFound = roomNumber.unavailableDates.some((date) =>
@@ -40,8 +49,6 @@ const Reserve = ({ setOpen, hotelId }) => {
     );
   };
 
-  const navigate = useNavigate();
-
   const handleClick = async () => {
     try {
       await Promise.all(
@@ -53,25 +60,23 @@ const Reserve = ({ setOpen, hotelId }) => {
         })
       );
       setOpen(false);
-      navigate("/");
     } catch (err) {}
   };
   return (
-    <div className="reserve">
+    <div className="reserve" ref={reservepopup}>
       <div className="rContainer">
         <span>Select your rooms:</span>
-        {data.map((item) => (
+        {hoteldetails.rooms.map((item) => (
           <div className="rItem" key={item._id}>
             <div className="rItemInfo">
-              <div className="rTitle">{item.title}</div>
-              <div className="rDesc">{item.desc}</div>
+              <div className="rTitle">{item.roomtitle}</div>
               <div className="rMax">
-                Max people: <b>{item.maxPeople}</b>
+                Max people: <b>{item.maxpeople}</b>
               </div>
               <div className="rPrice">{item.price}</div>
             </div>
             <div className="rSelectRooms">
-              {item.roomNumbers.map((roomNumber) => (
+              {item.roomno.map((roomNumber) => (
                 <div className="room">
                   <label>{roomNumber.number}</label>
                   <input

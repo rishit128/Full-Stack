@@ -87,12 +87,12 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: 300px;
 }
 
 .hotelDetailsPrice > h1 {
   font-size: 18px;
   color: #555;
-
 }
 .hotelDetailsPrice > span {
   font-size: 14px;
@@ -150,21 +150,16 @@
   color: lightgray;
   cursor: pointer;
 }
-.availability-block-header{
+.availability-block-header {
   font-weight: normal;
   font-size: 21px;
   padding: 0 0 10px 0;
   margin: 0;
 }
-.hp-dates-summary__header{
+.hp-dates-summary__header {
   font-weight: 700;
   font-size: 24px;
   line-height: 32px;
-  font-family: BlinkMacSystemFont,
-    -apple-system,
-    Segoe UI,
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif;;
+  font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Helvetica,
+    Arial, sans-serif;
 }
