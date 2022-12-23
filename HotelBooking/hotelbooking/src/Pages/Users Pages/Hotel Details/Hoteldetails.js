@@ -11,6 +11,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import Table from "@mui/material/Table";
 import TableRow from "@material-ui/core/TableRow";
+import PeopleIcon from "@mui/icons-material/People";
+import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
 const Hoteldetails = () => {
   const location = useLocation();
   const { user } = useSelector((state) => ({ ...state }));
@@ -138,8 +140,10 @@ const Hoteldetails = () => {
                 <TableContainer>
                   <Table>
                     <TableHead>
-                      <TableRow>
-                        <TableCell align="left"> Accommodation Type</TableCell>
+                      <TableRow style={{ backgroundColor: "#03a9f4" }}>
+                        <TableCell align="left" style={{ width: "350px" }}>
+                          Accommodation Type
+                        </TableCell>
                         <TableCell align="left"> Sleeps</TableCell>
                         <TableCell align="left"> Today's Price</TableCell>
                       </TableRow>
@@ -156,6 +160,26 @@ const Hoteldetails = () => {
                                   {e.roomtitle}
                                   {e.roomdescription}
                                 </div>
+                              </TableCell>
+
+                              <TableCell>
+                                {e.maxpeople <= 2 ? (
+                                  <div>
+                                    <PeopleIcon
+                                      fontSize="small"
+                                      style={{ color: "black" }}
+                                    />
+                                    {e.maxpeople} Max People
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <FamilyRestroomIcon
+                                      fontSize="small"
+                                      style={{ color: "black" }}
+                                    />
+                                    {e.maxpeople}
+                                  </div>
+                                )}
                               </TableCell>
                             </TableRow>
                           </TableBody>

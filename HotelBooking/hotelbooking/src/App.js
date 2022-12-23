@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import IndexRoutes from "./Routes/Indexoutes";
 import NotLoggedInRoutes from "./Routes/NotLoggedInRoutes";
-import Adminroutes from "./Routes/Adminroutes";
+import Adminroutes from "./Routes/AdminRoutes";
 import Login from "./Pages/login/login";
 import Home from "./Pages/home/Home";
 import Userhome from "./Pages/Users Pages/Home/Userhome";
