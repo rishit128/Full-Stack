@@ -1,14 +1,20 @@
 import "./reserve.css";
 import { useState, useRef } from "react";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import Useclickoutside from "../../components/useClickoutisde/Useclickoutside";
+import Checkbox from "@mui/material/Checkbox";
+import * as api from "../../api/index";
+import Errortoast from "../../components/Errortoast";
 const Reserve = ({ setOpen, hoteldetails }) => {
   const reservepopup = useRef(null);
   Useclickoutside(reservepopup, () => {
     setOpen(false);
   });
   const [selectedRooms, setSelectedRooms] = useState([]);
+
+  var Total =
+    selectedRooms.length &&
+    selectedRooms.reduce((x, item) => x + item.price, 0);
   const { user } = useSelector((state) => ({ ...state }));
   const getDatesInRange = (startDate, endDate) => {
     const start = new Date(startDate);
@@ -35,28 +41,32 @@ const Reserve = ({ setOpen, hoteldetails }) => {
     const isFound = roomNumber.unavailableDates.some((date) =>
       alldates.includes(new Date(date).getTime())
     );
-
     return !isFound;
   };
 
-  const handleSelect = (e) => {
+  const handleSelect = (e, item) => {
+    console.log(e);
+    console.log(item);
     const checked = e.target.checked;
     const value = e.target.value;
     setSelectedRooms(
       checked
-        ? [...selectedRooms, value]
-        : selectedRooms.filter((item) => item !== value)
+        ? [...selectedRooms, { id: value, price: item.price }]
+        : selectedRooms.filter((item) => item.id !== value)
     );
   };
-
+  var error =
+    selectedRooms.length > user?.usersearchdetails?.options.room ? true : false;
+  var message = `Please Select Only ${user?.usersearchdetails?.options.room} Room`;
   const handleClick = async () => {
     try {
       await Promise.all(
-        selectedRooms.map((roomId) => {
-          const res = axios.put(`/rooms/availability/${roomId}`, {
+        selectedRooms.map(async (roomId) => {
+          const { data } = await api.RoomAvailability(roomId, {
             dates: alldates,
           });
-          return res.data;
+          console.log(data);
+          return data;
         })
       );
       setOpen(false);
@@ -65,7 +75,17 @@ const Reserve = ({ setOpen, hoteldetails }) => {
   return (
     <div className="reserve" ref={reservepopup}>
       <div className="rContainer">
-        <span>Select your rooms:</span>
+        {error && (
+          <Errortoast showstate={true} message={message} severity="error" />
+        )}
+        <b>
+          Select Your {user?.usersearchdetails?.options.room}
+          {user?.usersearchdetails?.options.room <= 1 ? (
+            <span>Room</span>
+          ) : (
+            <span>Rooms</span>
+          )}
+        </b>
         {hoteldetails.rooms.map((item) => (
           <div className="rItem" key={item._id}>
             <div className="rItemInfo">
@@ -78,11 +98,13 @@ const Reserve = ({ setOpen, hoteldetails }) => {
             <div className="rSelectRooms">
               {item.roomno.map((roomNumber) => (
                 <div className="room">
-                  <label>{roomNumber.number}</label>
-                  <input
-                    type="checkbox"
+                  <Checkbox
+                    label={roomNumber.number}
                     value={roomNumber._id}
-                    onChange={handleSelect}
+                    onChange={(e) => {
+                      handleSelect(e, item);
+                    }}
+                    inputProps={{ "aria-label": "controlled" }}
                     disabled={!isAvailable(roomNumber)}
                   />
                 </div>
@@ -90,6 +112,7 @@ const Reserve = ({ setOpen, hoteldetails }) => {
             </div>
           </div>
         ))}
+        <b>Total Price:-{Total}</b>
         <button onClick={handleClick} className="rButton">
           Reserve Now!
         </button>
