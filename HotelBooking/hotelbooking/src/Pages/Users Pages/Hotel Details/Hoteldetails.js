@@ -5,13 +5,24 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import * as api from "../../../api/index";
 import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import Table from "@mui/material/Table";
+import TableRow from "@material-ui/core/TableRow";
+import PeopleIcon from "@mui/icons-material/People";
+import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
+import Reserve from "../../../components/Reserve/Reserve";
 const Hoteldetails = () => {
   const location = useLocation();
   const { user } = useSelector((state) => ({ ...state }));
   const [hotelid, sethotelid] = useState("");
   const [availableroomsdata, setavailableroomsdata] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
   const [hoteldetails, sethoteldetails] = useState({});
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+  console.log(hotelid);
   function dayDifference(date1, date2) {
     const timeDiff = Math.abs(
       new Date(date2).getTime() - new Date(date1).getTime()
@@ -24,6 +35,9 @@ const Hoteldetails = () => {
     user?.usersearchdetails?.dates[0].endDate,
     user?.usersearchdetails?.dates[0].startDate
   );
+  const handleClick = () => {
+    setOpenModal(true);
+  };
   const getDatesInRange = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -93,7 +107,6 @@ const Hoteldetails = () => {
       <Header type="list" />
       <div className="hotelContainer">
         <div className="hotelWrapper">
-          <button className="bookNow">Reserve or Book Now!</button>
           <h1 className="hotelTitle">{hoteldetails.hotelname}</h1>
           <div className="hotelAddress">
             <span>{hoteldetails.address}</span>
@@ -103,7 +116,7 @@ const Hoteldetails = () => {
             Airport
           </span>
           <span className="hotelPriceHighlight">
-            Book a stay over{" "}
+            Book a stay over
             <CurrencyRupeeOutlinedIcon
               fontSize="small"
               style={{ color: "green" }}
@@ -129,13 +142,72 @@ const Hoteldetails = () => {
               <div className="availability-block-header">
                 <hr />
                 <h2>Availability</h2>
-                {availableroomsdata?.map((e) => {
-                  return (
-                    e.availablerooms.some((item) => item.rishit === true) && (
-                      <div>{e.roomtitle}</div>
-                    )
-                  );
-                })}
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow style={{ backgroundColor: "#03a9f4" }}>
+                        <TableCell align="left" style={{ width: "350px" }}>
+                          Accommodation Type
+                        </TableCell>
+                        <TableCell align="left"> Sleeps</TableCell>
+                        <TableCell align="left"> Today's Price</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    {availableroomsdata?.map((e) => {
+                      return (
+                        e.availablerooms.some(
+                          (item) => item.rishit === true
+                        ) && (
+                          <TableBody>
+                            <TableRow>
+                              <TableCell>
+                                <div>
+                                  {e.roomtitle}
+                                  {e.roomdescription}
+                                </div>
+                              </TableCell>
+
+                              <TableCell>
+                                {e.maxpeople <= 2 ? (
+                                  <div>
+                                    <PeopleIcon
+                                      fontSize="medium"
+                                      style={{
+                                        color: "black",
+                                        paddingRight: "5px",
+                                      }}
+                                    />
+                                    {e.maxpeople} Max People
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <FamilyRestroomIcon
+                                      fontSize="medium"
+                                      style={{
+                                        color: "black",
+                                        paddingRight: "5px",
+                                      }}
+                                    />
+                                    {e.maxpeople}
+                                  </div>
+                                )}
+                              </TableCell>
+                              <TableCell>
+                                <div>
+                                  <CurrencyRupeeOutlinedIcon
+                                    fontSize="small"
+                                    style={{ color: "black" }}
+                                  />
+                                  {e.price}
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        )
+                      );
+                    })}
+                  </Table>
+                </TableContainer>
               </div>
             </div>
             <div className="hotelDetailsPrice">
@@ -156,13 +228,15 @@ const Hoteldetails = () => {
                 </b>{" "}
                 ({days} nights)
               </h2>
-              <button>Reserve or Book Now!</button>
+              <button onClick={handleClick}>Reserve or Book Now!</button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* {openModal && <Reserve setOpen={setOpenModal} hotelId={id} />} */}
+      {openModal && (
+        <Reserve setOpen={setOpenModal} hoteldetails={hoteldetails} />
+      )}
     </div>
   );
 };

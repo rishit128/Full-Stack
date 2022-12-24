@@ -1,9 +1,21 @@
 import "./reserve.css";
-const Reserve = ({ setOpen, hotelId }) => {
+import { useState, useRef } from "react";
+import { useSelector } from "react-redux";
+import Useclickoutside from "../../components/useClickoutisde/Useclickoutside";
+import Checkbox from "@mui/material/Checkbox";
+import * as api from "../../api/index";
+import Errortoast from "../../components/Errortoast";
+const Reserve = ({ setOpen, hoteldetails }) => {
+  const reservepopup = useRef(null);
+  Useclickoutside(reservepopup, () => {
+    setOpen(false);
+  });
   const [selectedRooms, setSelectedRooms] = useState([]);
-  const { data, loading, error } = useFetch(`/hotels/room/${hotelId}`);
-  const { dates } = useContext(SearchContext);
 
+  var Total =
+    selectedRooms.length &&
+    selectedRooms.reduce((x, item) => x + item.price, 0);
+  const { user } = useSelector((state) => ({ ...state }));
   const getDatesInRange = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -20,64 +32,79 @@ const Reserve = ({ setOpen, hotelId }) => {
     return dates;
   };
 
-  const alldates = getDatesInRange(dates[0].startDate, dates[0].endDate);
+  const alldates = getDatesInRange(
+    user?.usersearchdetails?.dates[0].startDate,
+    user?.usersearchdetails?.dates[0].endDate
+  );
 
   const isAvailable = (roomNumber) => {
     const isFound = roomNumber.unavailableDates.some((date) =>
       alldates.includes(new Date(date).getTime())
     );
-
     return !isFound;
   };
 
-  const handleSelect = (e) => {
+  const handleSelect = (e, item) => {
+    console.log(e);
+    console.log(item);
     const checked = e.target.checked;
     const value = e.target.value;
     setSelectedRooms(
       checked
-        ? [...selectedRooms, value]
-        : selectedRooms.filter((item) => item !== value)
+        ? [...selectedRooms, { id: value, price: item.price }]
+        : selectedRooms.filter((item) => item.id !== value)
     );
   };
-
-  const navigate = useNavigate();
-
+  var error =
+    selectedRooms.length > user?.usersearchdetails?.options.room ? true : false;
+  var message = `Please Select Only ${user?.usersearchdetails?.options.room} Room`;
   const handleClick = async () => {
     try {
       await Promise.all(
-        selectedRooms.map((roomId) => {
-          const res = axios.put(`/rooms/availability/${roomId}`, {
+        selectedRooms.map(async (roomId) => {
+          const { data } = await api.RoomAvailability(roomId, {
             dates: alldates,
           });
-          return res.data;
+          console.log(data);
+          return data;
         })
       );
       setOpen(false);
-      navigate("/");
     } catch (err) {}
   };
   return (
-    <div className="reserve">
+    <div className="reserve" ref={reservepopup}>
       <div className="rContainer">
-        <span>Select your rooms:</span>
-        {data.map((item) => (
+        {error && (
+          <Errortoast showstate={true} message={message} severity="error" />
+        )}
+        <b>
+          Select Your {user?.usersearchdetails?.options.room}
+          {user?.usersearchdetails?.options.room <= 1 ? (
+            <span>Room</span>
+          ) : (
+            <span>Rooms</span>
+          )}
+        </b>
+        {hoteldetails.rooms.map((item) => (
           <div className="rItem" key={item._id}>
             <div className="rItemInfo">
-              <div className="rTitle">{item.title}</div>
-              <div className="rDesc">{item.desc}</div>
+              <div className="rTitle">{item.roomtitle}</div>
               <div className="rMax">
-                Max people: <b>{item.maxPeople}</b>
+                Max people: <b>{item.maxpeople}</b>
               </div>
               <div className="rPrice">{item.price}</div>
             </div>
             <div className="rSelectRooms">
-              {item.roomNumbers.map((roomNumber) => (
+              {item.roomno.map((roomNumber) => (
                 <div className="room">
-                  <label>{roomNumber.number}</label>
-                  <input
-                    type="checkbox"
+                  <Checkbox
+                    label={roomNumber.number}
                     value={roomNumber._id}
-                    onChange={handleSelect}
+                    onChange={(e) => {
+                      handleSelect(e, item);
+                    }}
+                    inputProps={{ "aria-label": "controlled" }}
                     disabled={!isAvailable(roomNumber)}
                   />
                 </div>
@@ -85,6 +112,7 @@ const Reserve = ({ setOpen, hotelId }) => {
             </div>
           </div>
         ))}
+        <b>Total Price:-{Total}</b>
         <button onClick={handleClick} className="rButton">
           Reserve Now!
         </button>

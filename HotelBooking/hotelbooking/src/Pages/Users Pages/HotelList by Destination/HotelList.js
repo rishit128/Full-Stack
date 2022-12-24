@@ -29,7 +29,6 @@ const HotelList = () => {
         e.cheapestPrice <= max
     );
     sethoteldata(alldata);
-    return alldata;
   };
   useEffect(() => {
     if (location?.state) {
