@@ -1,5 +1,5 @@
 import "./reserve.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Useclickoutside from "../../components/useClickoutisde/Useclickoutside";
 import Checkbox from "@mui/material/Checkbox";
@@ -7,15 +7,28 @@ import * as api from "../../api/index";
 import Errortoast from "../../components/Errortoast";
 const Reserve = ({ setOpen, hoteldetails }) => {
   const reservepopup = useRef(null);
+  const { user } = useSelector((state) => ({ ...state }));
+  const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   Useclickoutside(reservepopup, () => {
     setOpen(false);
   });
+  function dayDifference(date1, date2) {
+    const timeDiff = Math.abs(
+      new Date(date2).getTime() - new Date(date1).getTime()
+    );
+    const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
+    return diffDays;
+  }
+  const days = dayDifference(
+    user?.usersearchdetails?.dates[0].endDate,
+    user?.usersearchdetails?.dates[0].startDate
+  );
   const [selectedRooms, setSelectedRooms] = useState([]);
-
+  const [error, seterror] = useState("");
   var Total =
     selectedRooms.length &&
     selectedRooms.reduce((x, item) => x + item.price, 0);
-  const { user } = useSelector((state) => ({ ...state }));
+
   const getDatesInRange = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -43,10 +56,8 @@ const Reserve = ({ setOpen, hoteldetails }) => {
     );
     return !isFound;
   };
-
   const handleSelect = (e, item) => {
-    console.log(e);
-    console.log(item);
+    seterror("");
     const checked = e.target.checked;
     const value = e.target.value;
     setSelectedRooms(
@@ -55,11 +66,13 @@ const Reserve = ({ setOpen, hoteldetails }) => {
         : selectedRooms.filter((item) => item.id !== value)
     );
   };
-  var error =
-    selectedRooms.length > user?.usersearchdetails?.options.room ? true : false;
+
   var message = `Please Select Only ${user?.usersearchdetails?.options.room} Room`;
   const handleClick = async () => {
     try {
+      if (error) {
+        return;
+      }
       await Promise.all(
         selectedRooms.map(async (roomId) => {
           const { data } = await api.RoomAvailability(roomId, {
@@ -72,6 +85,14 @@ const Reserve = ({ setOpen, hoteldetails }) => {
       setOpen(false);
     } catch (err) {}
   };
+  useEffect(() => {
+    var error =
+      selectedRooms.length > user?.usersearchdetails?.options.room
+        ? true
+        : false;
+    seterror(error);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedRooms]);
   return (
     <div className="reserve" ref={reservepopup}>
       <div className="rContainer">
@@ -112,8 +133,10 @@ const Reserve = ({ setOpen, hoteldetails }) => {
             </div>
           </div>
         ))}
-        <b>Total Price:-{Total}</b>
-        <button onClick={handleClick} className="rButton">
+        <b>Total Nights :- {days}</b>
+        <hr />
+        <b>Total Price:-{Total * days}</b>
+        <button onClick={handleClick} disabled={error} className="rButton">
           Reserve Now!
         </button>
       </div>
