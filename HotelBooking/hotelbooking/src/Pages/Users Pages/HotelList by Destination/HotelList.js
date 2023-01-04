@@ -16,13 +16,9 @@ const HotelList = () => {
   const [max, setMax] = useState(10000);
   const { hotels } = useSelector((state) => ({ ...state }));
   const [hoteldata, sethoteldata] = useState([]);
-  // const data = hotels.Allhotels.filter(
-  //   (e) =>
-  //     (e.city === destination && e.city >= min) || (1 && e.city <= max) || 10000
-  // );
-  console.log(hotels.Allhotels);
-  console.log(destination);
+
   const data = () => {
+    console.log(destination);
     const alldata = hotels.Allhotels.filter(
       (e) =>
         e.city === destination &&
@@ -40,7 +36,7 @@ const HotelList = () => {
       data();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [options]);
   return (
     <div>
       <div className="listContainer">
