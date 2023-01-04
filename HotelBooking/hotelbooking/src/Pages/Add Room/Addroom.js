@@ -1,5 +1,5 @@
 import "./addroom.scss";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import { useSelector } from "react-redux";
 import * as api from "../../api/index.js";
@@ -14,7 +14,6 @@ const Addroom = () => {
   const [roommdetails, setroomdetails] = useState({
     hotelname: "",
     roomtitle: "",
-    roomdescription: "",
     price: "",
     maxpeople: "",
   });
@@ -22,6 +21,7 @@ const Addroom = () => {
   const [Error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [rooms, setRooms] = useState([]);
+  const [roomdescription, setroomdescription] = useState("");
   const handleChange = (e) => {
     console.log(e);
     const { name, value } = e.target;
@@ -40,6 +40,7 @@ const Addroom = () => {
       const { data } = await api.createroom({
         ...roommdetails,
         roomno,
+        roomdescription,
       });
       if (data && data.Success) {
         setSucess(data.message);
@@ -104,9 +105,6 @@ const Addroom = () => {
       "Please Mention Max People Allow In This Room "
     ),
   });
-  useEffect(() => {
-    console.log(roommdetails);
-  }, [roommdetails]);
   return (
     <>
       <div className="new">
@@ -129,7 +127,7 @@ const Addroom = () => {
                 initialValues={{
                   hotelname: roommdetails.hotelname,
                   roomno: rooms,
-                  roomdescription: roommdetails.roomdescription,
+                  roomdescription: roomdescription,
                   price: roommdetails.price,
                   maxpeople: roommdetails.maxpeople,
                   roomtitle: roommdetails.roomtitle,
@@ -244,11 +242,11 @@ const Addroom = () => {
                       <ReactQuill
                         theme="snow"
                         id="roomdescription"
-                        onChange={handleChange}
+                        onChange={setroomdescription}
                         modules={modules}
                         formats={formats}
+                        name="roomdescription"
                         placeholder="Enter Your Room's Description"
-                        value={roommdetails.roomdescription}
                       />
                       {errors.roomdescription && touched.roomdescription ? (
                         <div style={{ color: "red" }}>
