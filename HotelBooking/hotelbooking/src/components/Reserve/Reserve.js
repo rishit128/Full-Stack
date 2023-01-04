@@ -5,6 +5,8 @@ import Useclickoutside from "../../components/useClickoutisde/Useclickoutside";
 import Checkbox from "@mui/material/Checkbox";
 import * as api from "../../api/index";
 import Errortoast from "../../components/Errortoast";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
 const Reserve = ({ setOpen, hoteldetails }) => {
   const reservepopup = useRef(null);
   const { user } = useSelector((state) => ({ ...state }));
@@ -49,7 +51,7 @@ const Reserve = ({ setOpen, hoteldetails }) => {
     user?.usersearchdetails?.dates[0].startDate,
     user?.usersearchdetails?.dates[0].endDate
   );
-
+  console.log(hoteldetails);
   const isAvailable = (roomNumber) => {
     const isFound = roomNumber.unavailableDates.some((date) =>
       alldates.includes(new Date(date).getTime())
@@ -78,7 +80,6 @@ const Reserve = ({ setOpen, hoteldetails }) => {
           const { data } = await api.RoomAvailability(roomId, {
             dates: alldates,
           });
-          console.log(data);
           return data;
         })
       );
@@ -114,19 +115,29 @@ const Reserve = ({ setOpen, hoteldetails }) => {
               <div className="rMax">
                 Max people: <b>{item.maxpeople}</b>
               </div>
-              <div className="rPrice">{item.price}</div>
+              <div className="rPrice">
+                Price:-{item.price}
+                <CurrencyRupeeOutlinedIcon
+                  fontSize="small"
+                  style={{ color: "black" }}
+                />
+              </div>
             </div>
             <div className="rSelectRooms">
               {item.roomno.map((roomNumber) => (
                 <div className="room">
-                  <Checkbox
+                  <FormControlLabel
                     label={roomNumber.number}
-                    value={roomNumber._id}
-                    onChange={(e) => {
-                      handleSelect(e, item);
-                    }}
-                    inputProps={{ "aria-label": "controlled" }}
-                    disabled={!isAvailable(roomNumber)}
+                    control={
+                      <Checkbox
+                        value={roomNumber._id}
+                        onChange={(e) => {
+                          handleSelect(e, item);
+                        }}
+                        inputProps={{ "aria-label": "controlled" }}
+                        disabled={!isAvailable(roomNumber)}
+                      />
+                    }
                   />
                 </div>
               ))}
@@ -135,7 +146,7 @@ const Reserve = ({ setOpen, hoteldetails }) => {
         ))}
         <b>Total Nights :- {days}</b>
         <hr />
-        <b>Total Price:-{Total * days}</b>
+        <b>Total Price:- {Total * days}</b>
         <button onClick={handleClick} disabled={error} className="rButton">
           Reserve Now!
         </button>

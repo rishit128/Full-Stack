@@ -100,6 +100,7 @@ const Addhotel = () => {
     cheapestPrice: Yup.string().required(
       "Please Mention Your Hotel Starting Price of Room"
     ),
+    description: Yup.string().required("Please Mention Hotel Description"),
   });
   return (
     <>
@@ -137,6 +138,7 @@ const Addhotel = () => {
                   city: formdetails.city,
                   cheapestPrice: formdetails.cheapestPrice,
                   distancefromairport: formdetails.distancefromairport,
+                  description: description,
                 }}
                 validationSchema={Hotelvalidation}
                 onSubmit={() => {
@@ -279,6 +281,9 @@ const Addhotel = () => {
                         placeholder="Enter Your Details/Description Here"
                         value={description}
                       />
+                      {errors.description && touched.description ? (
+                        <div style={{ color: "red" }}>{errors.description}</div>
+                      ) : null}
                     </div>
 
                     <button className="button">Add Hotel </button>

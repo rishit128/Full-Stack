@@ -1,5 +1,5 @@
 import "./addroom.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import { useSelector } from "react-redux";
 import * as api from "../../api/index.js";
@@ -7,6 +7,8 @@ import ArrowDropDownCircleIcon from "@mui/icons-material/ArrowDropDownCircle";
 import * as Yup from "yup";
 import DotLoader from "react-spinners/DotLoader";
 import Errortoast from "../../components/Errortoast";
+import "react-quill/dist/quill.snow.css";
+import ReactQuill from "react-quill";
 const Addroom = () => {
   const { hotels } = useSelector((state) => ({ ...state }));
   const [roommdetails, setroomdetails] = useState({
@@ -21,35 +23,27 @@ const Addroom = () => {
   const [loading, setLoading] = useState(false);
   const [rooms, setRooms] = useState([]);
   const handleChange = (e) => {
+    console.log(e);
     const { name, value } = e.target;
-    console.log(name);
-    console.log(value);
     setroomdetails({ ...roommdetails, [name]: value });
   };
   const addRoom = (e) => {
     const { name, value } = e.target;
     console.log(name);
     setRooms([value]);
-    console.log(rooms);
   };
   const addroomdata = async () => {
     try {
       setSucess("");
       setLoading(true);
-      console.log(roommdetails);
-      console.log(rooms);
       const roomno = rooms[0].split(",").map((room) => ({ number: room }));
-      console.log("first");
       const { data } = await api.createroom({
         ...roommdetails,
         roomno,
       });
-      console.log(data);
       if (data && data.Success) {
-        console.log("first");
         setSucess(data.message);
       }
-
       setLoading(false);
       setroomdetails({
         ...roommdetails,
@@ -64,6 +58,42 @@ const Addroom = () => {
       setError(error.response.data);
     }
   };
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ size: [] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ align: [] }],
+      [{ color: [] }, { background: [] }],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["clean"],
+    ],
+  };
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "color",
+    "background",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "video",
+    "image",
+    "code-block",
+    "align",
+  ];
   const Roomvalidation = Yup.object({
     roomtitle: Yup.string().required("Room Title Is Required"),
     hotelname: Yup.string().required("Hotel Name Is required!"),
@@ -74,6 +104,9 @@ const Addroom = () => {
       "Please Mention Max People Allow In This Room "
     ),
   });
+  useEffect(() => {
+    console.log(roommdetails);
+  }, [roommdetails]);
   return (
     <>
       <div className="new">
@@ -167,23 +200,7 @@ const Addroom = () => {
                         <div style={{ color: "red" }}>{errors.roomno}</div>
                       ) : null}
                     </div>
-                    <div className="formInput">
-                      <label htmlFor="roomdescription">Room description</label>
-                      <Field
-                        style={{ width: "500px", height: "100px" }}
-                        type="text"
-                        as="textarea"
-                        id="roomdescription"
-                        name="roomdescription"
-                        onChange={handleChange}
-                        placeholder="Enter Your Room's Description"
-                      />
-                      {errors.roomdescription && touched.roomdescription ? (
-                        <div style={{ color: "red" }}>
-                          {errors.roomdescription}
-                        </div>
-                      ) : null}
-                    </div>
+
                     <div className="formInput">
                       <label htmlFor="price">Room Price</label>
                       <Field
@@ -211,6 +228,32 @@ const Addroom = () => {
                       />
                       {errors.maxpeople && touched.maxpeople ? (
                         <div style={{ color: "red" }}>{errors.maxpeople}</div>
+                      ) : null}
+                    </div>
+                    <div>
+                      <label htmlFor="roomdescription">Room description</label>
+                      {/* <Field
+                        style={{ width: "430px", height: "100px" }}
+                        type="text"
+                        as="textarea"
+                        id="roomdescription"
+                        name="roomdescription"
+                        onChange={handleChange}
+                        placeholder="Enter Your Room's Description"
+                      /> */}
+                      <ReactQuill
+                        theme="snow"
+                        id="roomdescription"
+                        onChange={handleChange}
+                        modules={modules}
+                        formats={formats}
+                        placeholder="Enter Your Room's Description"
+                        value={roommdetails.roomdescription}
+                      />
+                      {errors.roomdescription && touched.roomdescription ? (
+                        <div style={{ color: "red" }}>
+                          {errors.roomdescription}
+                        </div>
                       ) : null}
                     </div>
                     <button className="button">Add Room </button>

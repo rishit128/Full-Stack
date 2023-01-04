@@ -20,7 +20,8 @@ const HotelList = () => {
   //   (e) =>
   //     (e.city === destination && e.city >= min) || (1 && e.city <= max) || 10000
   // );
-
+  console.log(hotels.Allhotels);
+  console.log(destination);
   const data = () => {
     const alldata = hotels.Allhotels.filter(
       (e) =>
@@ -28,6 +29,7 @@ const HotelList = () => {
         e.cheapestPrice >= min &&
         e.cheapestPrice <= max
     );
+    console.log(alldata);
     sethoteldata(alldata);
   };
   useEffect(() => {
@@ -38,7 +40,7 @@ const HotelList = () => {
       data();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [destination]);
+  }, []);
   return (
     <div>
       <div className="listContainer">
@@ -47,7 +49,12 @@ const HotelList = () => {
             <h1 className="lsTitle">Search</h1>
             <div className="lsItem">
               <label>Destination</label>
-              <input placeholder={destination} type="text" />
+              <input
+                placeholder="Enter Your Destination"
+                value={destination}
+                type="text"
+                onChange={(e) => setdestination(e.target.value)}
+              />
             </div>
             <div className="lsItem">
               <label>Check-in Date</label>

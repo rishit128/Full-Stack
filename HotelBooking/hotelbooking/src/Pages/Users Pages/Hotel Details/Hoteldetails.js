@@ -14,6 +14,7 @@ import TableRow from "@material-ui/core/TableRow";
 import PeopleIcon from "@mui/icons-material/People";
 import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
 import Reserve from "../../../components/Reserve/Reserve";
+import FadeLoader from "react-spinners/FadeLoader";
 const Hoteldetails = () => {
   const location = useLocation();
   const { user } = useSelector((state) => ({ ...state }));
@@ -21,8 +22,10 @@ const Hoteldetails = () => {
   const [availableroomsdata, setavailableroomsdata] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [hoteldetails, sethoteldetails] = useState({});
+  const [loading, setLoading] = useState(false);
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   console.log(hotelid);
+
   function dayDifference(date1, date2) {
     const timeDiff = Math.abs(
       new Date(date2).getTime() - new Date(date1).getTime()
@@ -38,6 +41,11 @@ const Hoteldetails = () => {
   const handleClick = () => {
     setOpenModal(true);
   };
+  console.log(hoteldetails);
+  const cheapestPrice = hoteldetails?.rooms?.reduce(
+    (prev, curr) => (prev.price < curr.price ? prev : curr),
+    0
+  );
   const getDatesInRange = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -80,10 +88,14 @@ const Hoteldetails = () => {
 
   useEffect(() => {
     const fetchhoteldetails = async (id) => {
+      setLoading(true);
       const { data } = await api.HotelByid(id);
+      console.log(data);
       var regex = /(<([^>]+)>)/gi;
       var description = data.description.replace(regex, "");
-      sethoteldetails({ ...data, description });
+      const newdata = { ...data, description };
+      sethoteldetails(newdata);
+      setLoading(false);
     };
     if (location?.pathname) {
       const id = location.pathname.split("/")[3];
@@ -105,6 +117,9 @@ const Hoteldetails = () => {
   return (
     <div>
       <Header type="list" />
+      <div className="centered">
+        <FadeLoader color="#1876f2" loading={loading} size={50} />
+      </div>
       <div className="hotelContainer">
         <div className="hotelWrapper">
           <h1 className="hotelTitle">{hoteldetails.hotelname}</h1>
@@ -121,8 +136,8 @@ const Hoteldetails = () => {
               fontSize="small"
               style={{ color: "green" }}
             />
-            {hoteldetails.cheapestPrice} at this property and get a free airport
-            taxi
+            {cheapestPrice && cheapestPrice?.price} at this property and get a
+            free airport taxi
           </span>
           {/* <div className="hotelImages">
             {data.photos?.map((photo, i) => (
@@ -162,7 +177,8 @@ const Hoteldetails = () => {
                             <TableRow>
                               <TableCell>
                                 <div>
-                                  {e.roomtitle}
+                                  {e.roomtitle} <br />
+                                  <br />
                                   {e.roomdescription}
                                 </div>
                               </TableCell>
@@ -188,7 +204,7 @@ const Hoteldetails = () => {
                                         paddingRight: "5px",
                                       }}
                                     />
-                                    {e.maxpeople}
+                                    {e.maxpeople} Max People
                                   </div>
                                 )}
                               </TableCell>
@@ -223,7 +239,7 @@ const Hoteldetails = () => {
                     style={{ color: "gray" }}
                   />
                   {days *
-                    hoteldetails.cheapestPrice *
+                    cheapestPrice?.price *
                     user?.usersearchdetails?.options.room}
                 </b>{" "}
                 ({days} nights)
