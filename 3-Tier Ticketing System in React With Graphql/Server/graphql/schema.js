@@ -1,5 +1,5 @@
-import {buildSchema} from 'graphql'
- 
+import { buildSchema } from "graphql";
+
 const schema = buildSchema(`
 input UserInputData {
   email: String!
@@ -30,7 +30,6 @@ type Ticket{
 type RootQuery {
   login(email: String!, password: String!): User!
   fetchtickets: [Ticket!]!
- 
 }
 
 type RootMutation {
@@ -44,5 +43,4 @@ schema {
 }
 `);
 
-
-export default schema
+export default schema;

@@ -31,7 +31,6 @@ const Addhotel = () => {
         ...formdetails,
         description,
       });
-      console.log(data);
       if (data && data.Success) {
         console.log("first");
         setSucess(data.message);

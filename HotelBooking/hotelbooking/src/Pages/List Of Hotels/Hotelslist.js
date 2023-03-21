@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 const HotelList = () => {
   const { hotels } = useSelector((state) => ({ ...state }));
-  console.log(hotels);
   return (
     <div>
       <Datatable columns={hotelColumns} data={hotels.Allhotels} />

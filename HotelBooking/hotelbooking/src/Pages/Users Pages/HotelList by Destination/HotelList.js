@@ -3,30 +3,22 @@ import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-date-range";
 import moment from "moment";
-import { useSelector } from "react-redux";
 import SearchItem from "../../../components/Search Item/SearchItem";
+import * as api from "../../../api/index.js";
 const HotelList = () => {
   const location = useLocation();
-
   const [destination, setdestination] = useState("");
   const [dates, setDates] = useState([]);
   const [openDate, setOpenDate] = useState(false);
   const [options, setoptions] = useState({});
   const [min, setMin] = useState(1);
   const [max, setMax] = useState(10000);
-  const { hotels } = useSelector((state) => ({ ...state }));
   const [hoteldata, sethoteldata] = useState([]);
 
-  const data = () => {
-    console.log(destination);
-    const alldata = hotels.Allhotels.filter(
-      (e) =>
-        e.city === destination &&
-        e.cheapestPrice >= min &&
-        e.cheapestPrice <= max
-    );
+  const data = async () => {
+    const alldata = await api.HotelBydestination({ destination, min, max });
     console.log(alldata);
-    sethoteldata(alldata);
+    sethoteldata(alldata.data);
   };
   useEffect(() => {
     if (location?.state) {

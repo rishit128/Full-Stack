@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import "./style.css";
-import { useState } from "react";
 import * as api from "../../api/index.js";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -29,13 +28,11 @@ const Login = () => {
         email,
         password,
       });
-      console.log(data);
       localStorage.setItem("profile", JSON.stringify(data));
       dispatch(userData(data));
       navigate("/");
-    } catch (error) {
-      console.log(error.response.data);
-      seterror(error.response.data);
+    } catch (Error) {
+      seterror(Error.response.data);
     }
   };
   const loginvalidation = Yup.object({

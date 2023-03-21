@@ -1,5 +1,5 @@
-import { AUTH } from '../constants/actionTypes';
-import * as api from '../api/index.js';
+import { AUTH } from "../constants/actionTypes";
+import * as api from "../api/index.js";
 
 export const signin = (formData, navigate) => async (dispatch) => {
   try {
@@ -16,17 +16,14 @@ export const signin = (formData, navigate) => async (dispatch) => {
       variables: {
         email: formData.email,
         password: formData.password,
-       
-      }
-    }; 
+      },
+    };
     const { data } = await api.signIn(graphqlQuery);
-    const result = {data:data.data.login}
-    dispatch({ type: AUTH, data:result });
+    const result = { data: data.data.login };
+    dispatch({ type: AUTH, data: result });
 
-    navigate('/home');
-  } catch (error) {
- 
-  }
+    navigate("/home");
+  } catch (error) {}
 };
 
 export const signup = (formData, navigate) => async (dispatch) => {
@@ -44,16 +41,15 @@ export const signup = (formData, navigate) => async (dispatch) => {
       variables: {
         email: formData.email,
         password: formData.password,
-        name:formData.name,
-        phone:formData.phone
-      }
+        name: formData.name,
+        phone: formData.phone,
+      },
     };
-    const  {data}  = await api.signUp(graphqlQuery);
-    console.log(data.data.signup);
-    const result = {data:data.data.signup}
+    const { data } = await api.signUp(graphqlQuery);
+    const result = { data: data.data.signup };
     dispatch({ type: AUTH, result });
 
-    navigate('/home');
+    navigate("/home");
   } catch (error) {
     console.log(error.response.data.errors[0].message);
   }

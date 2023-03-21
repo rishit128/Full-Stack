@@ -23,13 +23,11 @@ const Addroom = () => {
   const [rooms, setRooms] = useState([]);
   const [roomdescription, setroomdescription] = useState("");
   const handleChange = (e) => {
-    console.log(e);
     const { name, value } = e.target;
     setroomdetails({ ...roommdetails, [name]: value });
   };
   const addRoom = (e) => {
     const { name, value } = e.target;
-    console.log(name);
     setRooms([value]);
   };
   const addroomdata = async () => {
@@ -37,10 +35,12 @@ const Addroom = () => {
       setSucess("");
       setLoading(true);
       const roomno = rooms[0].split(",").map((room) => ({ number: room }));
+      var regex = /(<([^>]+)>)/gi;
+      var description = roomdescription.replace(regex, "");
       const { data } = await api.createroom({
         ...roommdetails,
         roomno,
-        roomdescription,
+        description,
       });
       if (data && data.Success) {
         setSucess(data.message);

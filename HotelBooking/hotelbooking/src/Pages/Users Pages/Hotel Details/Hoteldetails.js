@@ -41,7 +41,6 @@ const Hoteldetails = () => {
   const handleClick = () => {
     setOpenModal(true);
   };
-  console.log(hoteldetails);
   const cheapestPrice = hoteldetails?.rooms?.reduce(
     (prev, curr) => (prev.price < curr.price ? prev : curr),
     0
@@ -76,9 +75,9 @@ const Hoteldetails = () => {
   const availablerooms = new Promise(function (resolve, reject) {
     const hoteldata = hoteldetails?.rooms?.map((e) => {
       const availablerooms = e.roomno.map((e) => {
-        const rishit = isAvailable(e);
+        const room = isAvailable(e);
 
-        return { ...e, rishit };
+        return { ...e, room };
       });
 
       return { ...e, availablerooms };
@@ -110,7 +109,6 @@ const Hoteldetails = () => {
     availablerooms.then(function (data) {
       console.log(data);
       setavailableroomsdata(data);
-      console.log(availableroomsdata);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hoteldetails]);
@@ -170,9 +168,7 @@ const Hoteldetails = () => {
                     </TableHead>
                     {availableroomsdata?.map((e) => {
                       return (
-                        e.availablerooms.some(
-                          (item) => item.rishit === true
-                        ) && (
+                        e.availablerooms.some((item) => item.room === true) && (
                           <TableBody>
                             <TableRow>
                               <TableCell>

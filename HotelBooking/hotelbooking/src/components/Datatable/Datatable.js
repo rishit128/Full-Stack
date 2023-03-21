@@ -34,6 +34,7 @@ const DataTable = ({ columns, data }) => {
         rowsPerPageOptions={[9]}
         checkboxSelection
         getRowId={(row) => row._id}
+        disableColumnMenu={true}
         // getRowHeight={() => "auto"}
       />
     </div>

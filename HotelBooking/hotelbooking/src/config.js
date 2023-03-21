@@ -25,7 +25,6 @@ export const hotelColumns = [
     headerName: "CheapestPrice",
     width: 200,
     valueGetter: (params) => {
-      console.log(params);
       const cheapprice = params?.row?.rooms?.reduce(function (prev, curr) {
         return prev.price < curr.price ? prev : curr;
       }, 0);
@@ -34,13 +33,13 @@ export const hotelColumns = [
   },
   {
     field: "rooms.",
-    headerName: "Room Number's",
+    headerName: "Total Rooms",
     width: 200,
     valueGetter: (params) => {
       const allroomnumbers = params?.row?.rooms?.map((e) =>
-        e.roomno.map((e) => e.number)
+        e.roomno.map((E) => E.number)
       );
-      return allroomnumbers;
+      return allroomnumbers[0]?.length;
     },
   },
 ];
